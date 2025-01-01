@@ -4,14 +4,18 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/root-layout.tsx'
 import SignInPage from './routes/SignInPage.tsx'
+import LandingPage from './routes/LandingPage.tsx'
+import HomePage from './routes/HomePage.tsx'
+import SignUpPage from './routes/SignUpPage.tsx'
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
-      { path: '/', element: <div>Index page</div> },
+      { path: '/', element: <LandingPage /> },
       { path: '/sign-in/*', element: <SignInPage /> },
-      { path: '/sign-up/*', element: <div>Sign up page</div> }
+      { path: '/sign-up/*', element: <SignUpPage /> },
+      { path: '/home*', element: <HomePage /> }
     ]
   }
 ])

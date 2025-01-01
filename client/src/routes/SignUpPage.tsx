@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import Spline from '@splinetool/react-spline';
 import { ArrowRightIcon } from 'lucide-react';
-import { SignedIn, SignedOut, SignIn, useAuth } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, SignIn, SignUp, useAuth } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 
 
-const SignInPage = () => {
+const SignUpPage = () => {
     const { isSignedIn } = useAuth();
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const SignInPage = () => {
                     </div>
                     <div className='flex w-1/2 bg-black rounded-xl items-center justify-center'>
                         <SignedOut>
-                            <SignIn path='/sign-in' afterSignOutUrl={'/home'} signUpUrl='/sign-up' />
+                            <SignUp path='/sign-up' afterSignOutUrl={'/home'} signInUrl='/sign-in' />
                         </SignedOut>
                     </div>
                 </div>
@@ -38,4 +38,4 @@ const SignInPage = () => {
     )
 }
 
-export default SignInPage
+export default SignUpPage
