@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-    const { isSignedIn } = useAuth();
+    const { isSignedIn, signOut } = useAuth();
     const { user } = useUser();
     const navigate = useNavigate();
 
@@ -11,13 +11,17 @@ const HomePage = () => {
         if (!isSignedIn) {
             navigate('/sign-in');
         }
-    })
+    }, [isSignedIn]);
+
     return (
         <>
             <div>Home</div>
             <div>
                 {user?.fullName}
             </div>
+            <button onClick={() => signOut()}>
+                Sign out
+            </button>
         </>
     )
 }
