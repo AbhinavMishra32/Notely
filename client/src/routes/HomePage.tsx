@@ -1,9 +1,9 @@
 import { useAuth, useUser } from '@clerk/clerk-react'
 import { Sheet } from '@mui/joy';
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar, { SidebarGroup, SidebarItem } from '../components/Sidebar';
-import { HelpCircle, HelpingHand, NotebookText, Settings2 } from 'lucide-react';
+import { HelpCircle, HelpingHand, NotebookText, Search, Settings2 } from 'lucide-react';
 
 const HomePage = () => {
     const { isSignedIn, signOut } = useAuth();
@@ -22,12 +22,13 @@ const HomePage = () => {
 
     return (
         <>
-            <div className='flex'>
+            <div className='flex gap-2'>
                 <Sidebar>
+                    <SidebarItem icon={<Search color='grey' size={17} />} link='/' text="Search" isNote={false} />
                     <SidebarGroup title='Notes'>
-                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/eee' text='note title 1' isNote={true} />
-                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/eee' text='hllooooo' isNote={true} />
-                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/eee' text='nice note' isNote={true} />
+                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/note-title-1-2qg3jl23gasdf' text='note title 1' isNote={true} />
+                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/helo-asem3wlk2fj2f23' text='helo' isNote={true} />
+                        <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/nice-note-asdfavbwmklvm32lk23k5' text='nice note' isNote={true} />
                     </SidebarGroup>
 
                     <SidebarGroup title="Settings">
@@ -35,15 +36,9 @@ const HomePage = () => {
                         <SidebarItem icon={<HelpCircle color='gray' size={17} />} link='/help' text='Help' isNote={false} />
                     </SidebarGroup>
                 </Sidebar>
-                <div className='h-screen w-screen dark:bg-black dark:text-white font-inter'>
-                    <div className='font-inter'>Home</div>
-                    <div>
-                        {user?.fullName}
-                    </div>
-                    <button onClick={() => signOut()}>
-                        Sign out
-                    </button>
-                </div>
+                {/* <div className='h-screen w-screen dark:bg-black dark:text-white font-inter'>
+                </div> */}
+                <Outlet />
             </div>
         </>
     )

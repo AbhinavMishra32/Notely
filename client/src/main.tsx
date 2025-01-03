@@ -7,6 +7,7 @@ import SignInPage from './routes/SignInPage.tsx'
 import LandingPage from './routes/LandingPage.tsx'
 import HomePage from './routes/HomePage.tsx'
 import SignUpPage from './routes/SignUpPage.tsx'
+import EditorPage from './routes/EditorPage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,12 @@ const router = createBrowserRouter([
       { path: '/', element: <LandingPage /> },
       { path: '/sign-in/*', element: <SignInPage /> },
       { path: '/sign-up/*', element: <SignUpPage /> },
-      { path: '/home/*', element: <HomePage /> }
+      {
+        path: '/app', element: <HomePage />,
+        children: [
+          { path: 'note/:id', element: <EditorPage /> },
+        ]
+      }
     ]
   }
 ])

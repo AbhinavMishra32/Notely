@@ -1,15 +1,16 @@
 import { UserButton, useUser } from '@clerk/clerk-react'
 import { dark } from '@clerk/themes';
-import { ChevronRightIcon, Cross, Delete, Link, LucideDelete, MoreHorizontal, View, X } from 'lucide-react';
+import { ChevronRightIcon, Cross, Delete, Fullscreen, Link, LucideDelete, MoreHorizontal, View, X } from 'lucide-react';
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { DropdownMenuContent, DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
+import { Autocomplete } from '@mui/joy';
 
 const Sidebar = ({ children }) => {
     const { user } = useUser();
     return (
-        <div className='flex flex-col gap-2 py-4 px-2 bg-neutral-900 border-r-2'>
+        <div className='flex flex-col h-screen gap-2 py-4 px-2 bg-neutral-900 border-r-2'>
             <div className='flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 w-60 rounded-xl'>
                 <div className='pl-3 pr-1 flex items-center justify-center'>
                     <UserButton appearance={{ baseTheme: dark, elements: { userButtonAvatarBox: 'w-8 h-8' } }} />
@@ -54,28 +55,40 @@ const notes = [
 
 export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNote: boolean }> = ({ icon, text, link, isNote }) => {
     const [isHovered, setIsHovered] = useState(false);
-    if (!icon || !text || !link) {
-        return <p>Enter all props</p>
-    }
+    const [isActive, setIsActive] = useState(false);
     return (
         <div
-            className='flex justify-between gap-1 hover:bg-neutral-800 rounded-md py-1 px-2 transition-all duration-200 ease-in-out'
+            className={`flex justify-between gap-1 mb-1 hover:bg-neutral-800 ${isActive ? ("bg-neutral-800") : ""} rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <NavLink
                 to={link}
-                className={({ isActive }) => isActive ? 'bg-neutral-800' : ''}
-                style={{ flex: 1 }}
-            >
+                // className={({ isActive }) => isActive ? 'bg-neutral-800 text-white' : 'text-neutral-400'}
+                className={({ isActive }) => {
+                    setIsActive(isActive);
+                    return isActive ? '' : '';
+                }}
+                style={{ width: '100%', height: '100%' }}>
+
                 <div className='flex items-center'>
                     <div className='flex items-center justify-center mr-1 overflow-hidden' style={{ width: '24px', height: '24px' }}>
-                        <div className={`absolute transition-opacity duration-200 mr-2 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
-                            {icon}
-                        </div>
-                        <div className={`absolute transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                            <ChevronRightIcon size={16} color='gray' />
-                        </div>
+                        {isNote ? (
+                            <>
+                                <div className={`absolute transition-opacity duration-200 mr-2 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+                                    {icon}
+                                </div>
+                                <div className={`absolute transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                                    <ChevronRightIcon size={16} color='gray' />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className={`absolute transition-opacity duration-200 mr-2`}>
+                                    {icon}
+                                </div>
+                            </>
+                        )}
                     </div>
                     <div className='font-inter text-neutral-400 text-[15px] antialiased'>
                         {text}
