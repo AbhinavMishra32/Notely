@@ -15,8 +15,8 @@ const Sidebar = ({ children }) => {
                 <div className='pl-3 pr-1 flex items-center justify-center'>
                     <UserButton appearance={{ baseTheme: dark, elements: { userButtonAvatarBox: 'w-8 h-8' } }} />
                 </div>
-                <div className='flex flex-col justify-center items-center'>
-                    <p className='text-gray-400 text-xs'>Standard account</p>
+                <div className='flex flex-col'>
+                    <p className='text-gray-400 text-xs'>Free account</p>
                     <p className='text-white text-sm'>{user?.fullName}</p>
                 </div>
             </div>
@@ -58,7 +58,7 @@ export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNo
     const [isActive, setIsActive] = useState(false);
     return (
         <div
-            className={`flex justify-between gap-1 mb-1 hover:bg-neutral-800 ${isActive ? ("bg-neutral-800") : ""} rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
+            className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${isActive ? ("bg-neutral-800") : ""} rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
