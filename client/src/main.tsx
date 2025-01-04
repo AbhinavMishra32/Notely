@@ -5,9 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layouts/root-layout.tsx'
 import SignInPage from './routes/SignInPage.tsx'
 import LandingPage from './routes/LandingPage.tsx'
-import HomePage from './routes/HomePage.tsx'
+import HomePageLayout from './layouts/HomePageLayout.tsx'
 import SignUpPage from './routes/SignUpPage.tsx'
 import EditorPage from './routes/EditorPage.tsx'
+import HomePage from './routes/HomePage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,9 @@ const router = createBrowserRouter([
       { path: '/sign-in/*', element: <SignInPage /> },
       { path: '/sign-up/*', element: <SignUpPage /> },
       {
-        path: '/app', element: <HomePage />,
+        path: '/app', element: <HomePageLayout />,
         children: [
+          { path: 'home', element: <HomePage /> },
           { path: 'note/:id', element: <EditorPage /> },
         ]
       }

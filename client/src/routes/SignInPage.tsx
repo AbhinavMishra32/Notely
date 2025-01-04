@@ -29,7 +29,7 @@ const SignInPage = () => {
                     </div>
                     <div className='flex w-1/2 bg-black rounded-xl items-center justify-center'>
                         <SignedOut>
-                            <SignIn path='/sign-in' afterSignOutUrl={'/home'} signUpUrl='/sign-up' />
+                            <SignIn path='/sign-in' afterSignOutUrl={'/app/home'} signUpUrl='/sign-up' />
                         </SignedOut>
                     </div>
                 </div>
