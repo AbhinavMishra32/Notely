@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar, { SidebarGroup, SidebarItem } from '../components/Sidebar';
 import { HelpCircle, HelpingHand, NotebookText, Search, Settings2 } from 'lucide-react';
+import AIPanel from '../components/AIPanel';
 
 const HomePageLayout = () => {
     const { isSignedIn, signOut } = useAuth();
@@ -36,9 +37,10 @@ const HomePageLayout = () => {
                         <SidebarItem icon={<HelpCircle color='gray' size={17} />} link='/help' text='Help' isNote={false} />
                     </SidebarGroup>
                 </Sidebar>
-                {/* <div className='h-screen w-screen dark:bg-black dark:text-white font-inter'>
-                </div> */}
-                <Outlet />
+                <div className='flex justify-between'>
+                    <Outlet />
+                    <AIPanel />
+                </div>
             </div>
         </>
     )
