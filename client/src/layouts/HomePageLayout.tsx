@@ -37,10 +37,8 @@ const HomePageLayout = () => {
                         <SidebarItem icon={<HelpCircle color='gray' size={17} />} link='/help' text='Help' isNote={false} />
                     </SidebarGroup>
                 </Sidebar>
-                <div className='flex justify-between'>
-                    <Outlet />
-                    <AIPanel />
-                </div>
+                <Outlet />
+                <AIPanel />
             </div>
         </>
     )
