@@ -6,6 +6,7 @@ import StarterKit from '@tiptap/starter-kit';
 import '../editorStyles.css';
 import { Toggle } from '@radix-ui/react-toggle';
 import { AlignHorizontalDistributeEnd, Bold, Code, Code2, Dot, Heading, Italic, List, Quote, Redo, Strikethrough as Strike, Strikethrough, Undo } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const EditorPage = () => {
     // const { editor } = useCurrentEditor();
@@ -20,7 +21,7 @@ const EditorPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2 mb-4 w-11/12 h-screen">
+        <div className="flex flex-col gap-2 mb-4 w-11/12 h-screen" >
             < div className="border rounded-xl mt-4" >
                 <div className='flex flex-wrap items-center justify-center gap-1 p-3'>
                     <Toggle
@@ -97,10 +98,6 @@ const EditorPage = () => {
                     <Toggle onClick={() => editor.chain().focus().setHorizontalRule().run()} className="px-2 py-2 rounded bg-neutral-800">
                         <AlignHorizontalDistributeEnd className='h-4 w-4' />
                     </Toggle>
-                    {/* <Toggle onClick={() => editor.chain().focus().setHardBreak().run()} className="px-2 py-2 rounded bg-neutral-800">
-                        {/* <HardBreak className='h-4 w-4' /> */}
-                    {/* Hard Break */}
-                    {/* </Toggle> */}
                     <Toggle
                         onClick={() => editor.chain().focus().undo().run()}
                         disabled={!editor.can().chain().focus().undo().run()}
@@ -134,6 +131,18 @@ const EditorPage = () => {
                             className={`px-2 py-2 rounded-md ${editor.isActive('italic') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
                         >
                             <Italic className='h-4 w-4' />
+                        </Toggle>
+                        <Toggle
+                            onClick={() => editor.chain().focus().toggleStrike().run()}
+                            disabled={!editor.can().chain().focus().toggleStrike().run()}
+                            className={`px-2 py-2 rounded ${editor.isActive('strike') ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
+                            <Strikethrough className='h-4 w-4' />
+                        </Toggle>
+                        <Toggle
+                            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                            className={`px-2 py-2 rounded ${editor.isActive('orderedList') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                        >
+                            <List className='h-4 w-4' />
                         </Toggle>
                     </div>
                 </BubbleMenu>
