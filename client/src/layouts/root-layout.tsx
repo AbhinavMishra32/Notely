@@ -20,8 +20,8 @@ const RootLayout = () => {
             <header>
                 {/* Put header here */}
             </header>
-            <SignedOut>
-            </SignedOut>
+            {/* <SignedOut>
+            </SignedOut> */}
             <main>
                 <Outlet />
             </main>

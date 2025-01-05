@@ -8,7 +8,7 @@ const LandingPage = () => {
 
     useEffect(() => {
         if (isSignedIn) {
-            navigate('/home');
+            navigate('/app/home');
         }
     });
     return (
