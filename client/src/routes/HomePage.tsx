@@ -100,9 +100,9 @@ const HomePage = () => {
             <div className='w-11/12 h-screen bg-neutral-900'>
             <div className='p-8'>
                 <h1 className='font-light text-4xl mb-6'>Notes</h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[min-content]'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                     {notesData.map((note, index) => (
-                        <NoteCard key={index} data = {note} />
+                        <NoteCard key={index} data = {note}/>
                     ))}
                 </div>
             </div>
