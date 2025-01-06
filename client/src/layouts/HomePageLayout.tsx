@@ -39,10 +39,10 @@ const HomePageLayout = () => {
                         </SidebarGroup>
                     </Sidebar>
                 </div>
-                <div className='w-4/6 overflow-y-auto scrollbar-none bg-neutral-950'>
+                <div className='w-screen overflow-y-auto scrollbar-none bg-neutral-950'>
                     <Outlet />
                 </div>
-                <AIPanel />
+                {/* <AIPanel /> */}
             </div>
         </>
     )

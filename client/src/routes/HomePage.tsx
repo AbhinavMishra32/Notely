@@ -1,5 +1,7 @@
 import React from 'react'
 import NoteCard from '../components/NoteCard'
+import Masonry from "react-masonry-css";
+
 
 const notesData = [
     {
@@ -159,24 +161,32 @@ const notesData = [
     },
 ]
 
+const breakpointColumnsObj = {
+    default: 4,  // For large screens
+    1400: 2,     // For medium screens
+    700: 1,      // For small screens
+};
 
 const HomePage = () => {
     return (
-        <>
-            <div className='w-full h-screen'>
-                <div className='p-8'>
-                    <h1 className='font-light text-4xl mb-6'>Notes</h1>
-                    <div className='columns-1 md:columns-2 lg:columns-3 gap-6'>
-                        {notesData.map((note, index) => (
-                            <div key={index} className='mb-6 break-inside-avoid'>
-                                <NoteCard data={note} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+        <div className="w-5/6 h-screen m-auto">
+            <div className="p-8">
+                <h1 className="font-light text-4xl mb-6">Notes</h1>
+
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="flex -ml-6 w-auto"
+                    columnClassName="pl-6 bg-clip-padding"
+                >
+                    {notesData.map((note, index) => (
+                        <div key={index} className="mb-6">
+                            <NoteCard data={note} />
+                        </div>
+                    ))}
+                </Masonry>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
 export default HomePage
