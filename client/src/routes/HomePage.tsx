@@ -1,6 +1,7 @@
 import React from 'react'
 import NoteCard from '../components/NoteCard'
 import Masonry from "react-masonry-css";
+import AIBar from '../components/AIBar';
 
 
 const notesData = [
@@ -169,7 +170,7 @@ const breakpointColumnsObj = {
 
 const HomePage = () => {
     return (
-        <div className="w-5/6 h-screen m-auto">
+        <div className="relative w-5/6 h-screen m-auto">
             <div className="p-8">
                 <h1 className="font-light text-4xl mb-6">Notes</h1>
 
@@ -185,8 +186,11 @@ const HomePage = () => {
                     ))}
                 </Masonry>
             </div>
+            <AIBar />
         </div>
     );
 };
+
+
 
 export default HomePage

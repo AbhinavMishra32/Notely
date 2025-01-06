@@ -21,7 +21,7 @@ const EditorPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2 mb-4 w-full h-screen" >
+        <div className="relative flex flex-col gap-2 mb-4 w-full h-screen" >
             < div className="border rounded-xl mt-4" >
                 <div className='flex flex-wrap items-center justify-center gap-1 p-3'>
                     <Toggle
@@ -147,7 +147,7 @@ const EditorPage = () => {
                     </div>
                 </BubbleMenu>
             </div>
-        </div >
+        </div>
     );
 };
 
@@ -208,3 +208,4 @@ const content = `
 //         </div>
 //     );
 // };
+
