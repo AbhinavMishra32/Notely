@@ -21,7 +21,7 @@ const EditorPage = () => {
     }
 
     return (
-        <div className="flex flex-col gap-2 mb-4 w-11/12 h-screen" >
+        <div className="flex flex-col gap-2 mb-4 w-full h-screen" >
             < div className="border rounded-xl mt-4" >
                 <div className='flex flex-wrap items-center justify-center gap-1 p-3'>
                     <Toggle

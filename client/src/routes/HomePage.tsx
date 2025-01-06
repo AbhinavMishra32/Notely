@@ -54,7 +54,7 @@ const notesData = [
     },
     {
         title: 'Note Title 11',
-        content: 'Note Content 11',
+        content: 'loram ipsum dolor sit amet, consectetur adipiscing elit. Nunc in odio et felis eleifend eleif end. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent rhoncus nibh vel bibendum hendrerit. Phasellus suscipit urna eget nisl maximus, ut suscipit sapien euismod. Nulla ullamcorper facilisis lacus, fermentum acc ',
         date: 'Jan 27'
     },
     {
@@ -91,23 +91,91 @@ const notesData = [
         title: 'Note Title 18',
         content: 'Note Content 18',
         date: 'Mar 3',
-    }
+    },
+    {
+        title: 'Note Title 19',
+        content: 'Note Content 19',
+        date: 'Mar 4'
+    },
+    {
+        title: 'Note Title 20',
+        content: 'Note Content 20',
+        date: 'Mar 5'
+    },
+    {
+        title: 'Note Title 10',
+        content: 'Note Content 10',
+        date: 'Jan 26'
+    },
+    {
+        title: 'Note Title 1123 ',
+        content: 'loram ipsum dolor sit amet, consectetur adipiscing elit. Nunc in odio et felis eleifend eleif end. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent rhoncus nibh vel bibendum hendrerit. Phasellus suscipit urna eget nisl maximus, ut suscipit sapien euismod. Nulla ullamcorper facilisis lacus, fermentum acc Vc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdum',
+        date: 'Jan 27'
+    },
+    {
+        title: 'Note Title 12',
+        content: 'Note Content 12',
+        date: 'Jan 28'
+    },
+    {
+        title: 'Note Title 13',
+        content: 'Note Content 13',
+        date: 'Jan 29'
+    },
+    {
+        title: 'Note Title 14',
+        content: 'Note Content 14',
+        date: 'Jan 30'
+    },
+    {
+        title: 'Note Title 15',
+        content: 'Note Content 15',
+        date: 'Jan 31'
+    },
+    {
+        title: 'Note Title 16',
+        content: 'Note Content 16',
+        date: 'Feb 1'
+    },
+    {
+        title: 'Note Title 17',
+        content: 'Note Content 17',
+        date: 'Feb 2'
+    },
+    {
+        title: 'Note Title 18',
+        content: 'Note Content 18',
+        date: 'Mar 3',
+    },
+    {
+        title: 'Note Title 19',
+        content: 'Note Content 19',
+        date: 'Mar 4'
+    },
+    {
+        title: 'Note Title 20',
+        content: 'Note Content 20',
+        date: 'Mar 5'
+    },
 ]
+
 
 const HomePage = () => {
     return (
         <>
-            <div className='w-11/12 h-screen bg-neutral-900'>
-            <div className='p-8'>
-                <h1 className='font-light text-4xl mb-6'>Notes</h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                    {notesData.map((note, index) => (
-                        <NoteCard key={index} data = {note}/>
-                    ))}
+            <div className='w-full h-screen'>
+                <div className='p-8'>
+                    <h1 className='font-light text-4xl mb-6'>Notes</h1>
+                    <div className='columns-1 md:columns-2 lg:columns-3 gap-6'>
+                        {notesData.map((note, index) => (
+                            <div key={index} className='mb-6 break-inside-avoid'>
+                                <NoteCard data={note} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
-            </div>
-            </>
+        </>
     )
 }
 
