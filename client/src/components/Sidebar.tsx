@@ -10,8 +10,10 @@ import { Autocomplete } from '@mui/joy';
 const Sidebar = ({ children }) => {
     const { user } = useUser();
     return (
-        <div className='flex flex-col h-screen gap-2 py-4 px-2 bg-neutral-900 border-r-2'>
-            <div className='flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 w-60 rounded-xl'>
+        <div
+            className='fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-neutral-900 border-r-2 z-50' // Added fixed position and explicit width
+        >
+            <div className='flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 rounded-xl'>
                 <div className='pl-3 pr-1 flex items-center justify-center'>
                     <UserButton appearance={{ baseTheme: dark, elements: { userButtonAvatarBox: 'w-8 h-8' } }} />
                 </div>
@@ -20,12 +22,12 @@ const Sidebar = ({ children }) => {
                     <p className='text-white text-sm'>{user?.fullName}</p>
                 </div>
             </div>
-            <div>
+            <div className='overflow-y-auto'> {/* Ensure that the content scrolls if needed */}
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export const SidebarGroup: React.FC<{ title: string, children: React.ReactNode }> = ({ title, children }) => {
     return (
@@ -42,16 +44,6 @@ export const SidebarGroup: React.FC<{ title: string, children: React.ReactNode }
     )
 }
 
-//object of notes
-
-const notes = [
-    {
-        title: 'note title 1',
-    },
-    {
-        title: 'note title 2',
-    }
-]
 
 export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNote: boolean }> = ({ icon, text, link, isNote }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -102,9 +94,9 @@ export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNo
                             <MoreHorizontal size={16} color='gray' />
                         </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='absolute w-56 backdrop-blur-md bg-neutral-600/30 rounded-md border'>
+                    <DropdownMenuContent className='absolute z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60' style={{ boxShadow: '0px 0px 30px 7px rgba(0,0,0,0.6)' }}>
                         <button
-                            className='flex w-full justify-between gap-1 hover:bg-neutral-800 py-1 px-2 transition-all duration-200 ease-in-out'>
+                            className='flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out'>
                             <div className='flex items-center'>
                                 <div className='flex items-center justify-center mr-1 overflow-hidden' style={{ width: '24px', height: '24px' }}>
                                     <div className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}>
@@ -117,7 +109,7 @@ export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNo
                             </div>
                         </button>
                         <button
-                            className='flex w-full justify-between gap-1 hover:bg-neutral-800 py-1 px-2 transition-all duration-200 ease-in-out'>
+                            className='flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out'>
                             <div className='flex items-center'>
                                 <div className='flex items-center justify-center mr-1 overflow-hidden' style={{ width: '24px', height: '24px' }}>
                                     <div className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}>
@@ -129,9 +121,11 @@ export const SidebarItem: React.FC<{ icon: any, text: string, link: string, isNo
                                 </div>
                             </div>
                         </button>
-                        <DropdownMenuSeparator />
+                        <div className='px-1'>
+                            <DropdownMenuSeparator className='bg-neutral-700/40' />
+                        </div>
                         <button
-                            className='flex w-full justify-between gap-1 hover:bg-neutral-800 py-1 px-2 transition-all duration-200 ease-in-out'>
+                            className='flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out'>
                             <div className='flex items-center'>
                                 <div className='flex items-center justify-center mr-1 overflow-hidden' style={{ width: '24px', height: '24px' }}>
                                     <div className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}>

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import NoteCard from '../components/NoteCard'
 import Masonry from "react-masonry-css";
 import AIBar from '../components/AIBar';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Edit, Edit2, Edit3, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const notesData = [
@@ -169,6 +172,17 @@ const breakpointColumnsObj = {
 };
 
 const HomePage = () => {
+    const parentRef = useRef(null);
+    const [parentWidth, setParentWidth] = useState(0);
+    const [selectedNote, setSelectedNote] = useState(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        if (parentRef.current) {
+            setParentWidth(parentRef.current.offsetWidth);  // Get parent container's width
+        }
+    }, []);
+
     return (
         <div className="relative w-5/6 h-screen m-auto">
             <div className="p-8">
@@ -180,17 +194,52 @@ const HomePage = () => {
                     columnClassName="pl-6 bg-clip-padding"
                 >
                     {notesData.map((note, index) => (
-                        <div key={index} className="mb-6">
+                        <div key={index} className="cursor-pointer mb-6" onClick={() => { setSelectedNote(note) }}>
                             <NoteCard data={note} />
                         </div>
                     ))}
                 </Masonry>
             </div>
-            <AIBar />
-        </div>
+
+            {selectedNote && (
+                <AnimatePresence>
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ scale: 0.7, opacity: 0.4 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.5, type: 'spring' }}
+                        >
+                            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10" onClick={() => setSelectedNote(null)}></div>
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                                <div className='p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl'
+                                    onMouseEnter={() => setIsHovered(true)}
+                                    onMouseLeave={() => setIsHovered(false)}>
+                                    <div className='flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration-200 ease-in-out'>
+                                        <p className='text-md text-neutral-200 mb-2'>{selectedNote.title}</p>
+                                        <div className='w-[500px] h-full relative'>
+                                            <div className={`text-[14px] text-neutral-300 mb-3`}>
+                                                {selectedNote.content}
+                                            </div>
+                                        </div>
+                                        <p className='text-xs text-neutral-500 mt-auto self-end'>{selectedNote.date}</p>
+                                    </div>
+                                </div>
+                                <div className='absolute top-0 right-0 p-2'>
+                                    <div className='flex gap-2 items-center justify-center'>
+                                        <Link to={`/app/note/${selectedNote.title}`} ><Edit size={19} color='gray' /></Link>
+                                        <button className='' onClick={() => setSelectedNote(null)}><X size={22} color='gray' /></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div >
+                </AnimatePresence>
+            )}
+
+            <AIBar parentWidth={parentWidth} />
+        </div >
     );
 };
-
-
 
 export default HomePage
