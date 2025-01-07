@@ -1,9 +1,10 @@
 import React from 'react'
+import '../index.css';
 
 const AIPanel = () => {
     return (
         <>
-            <div className='w-3/6 h-screen bg-neutral-950 p-3' >
+            <div className='w-3/12 h-screen bg-neutral-950 p-3' >
                 <div className='bg-neutral-900 w-full h-full rounded-2xl' style={{
                     backgroundColor: 'hsla(0,0%,0%,1)',
                     backgroundImage: `

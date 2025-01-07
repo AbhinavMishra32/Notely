@@ -1,5 +1,8 @@
 import React from 'react'
 import NoteCard from '../components/NoteCard'
+import Masonry from "react-masonry-css";
+import AIBar from '../components/AIBar';
+
 
 const notesData = [
     {
@@ -54,7 +57,7 @@ const notesData = [
     },
     {
         title: 'Note Title 11',
-        content: 'Note Content 11',
+        content: 'loram ipsum dolor sit amet, consectetur adipiscing elit. Nunc in odio et felis eleifend eleif end. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent rhoncus nibh vel bibendum hendrerit. Phasellus suscipit urna eget nisl maximus, ut suscipit sapien euismod. Nulla ullamcorper facilisis lacus, fermentum acc ',
         date: 'Jan 27'
     },
     {
@@ -91,24 +94,103 @@ const notesData = [
         title: 'Note Title 18',
         content: 'Note Content 18',
         date: 'Mar 3',
-    }
+    },
+    {
+        title: 'Note Title 19',
+        content: 'Note Content 19',
+        date: 'Mar 4'
+    },
+    {
+        title: 'Note Title 20',
+        content: 'Note Content 20',
+        date: 'Mar 5'
+    },
+    {
+        title: 'Note Title 10',
+        content: 'Note Content 10',
+        date: 'Jan 26'
+    },
+    {
+        title: 'Note Title 1123 ',
+        content: 'loram ipsum dolor sit amet, consectetur adipiscing elit. Nunc in odio et felis eleifend eleif end. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent rhoncus nibh vel bibendum hendrerit. Phasellus suscipit urna eget nisl maximus, ut suscipit sapien euismod. Nulla ullamcorper facilisis lacus, fermentum acc Vc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdumc in odio et felis eleifend eleif end. Interdum',
+        date: 'Jan 27'
+    },
+    {
+        title: 'Note Title 12',
+        content: 'Note Content 12',
+        date: 'Jan 28'
+    },
+    {
+        title: 'Note Title 13',
+        content: 'Note Content 13',
+        date: 'Jan 29'
+    },
+    {
+        title: 'Note Title 14',
+        content: 'Note Content 14',
+        date: 'Jan 30'
+    },
+    {
+        title: 'Note Title 15',
+        content: 'Note Content 15',
+        date: 'Jan 31'
+    },
+    {
+        title: 'Note Title 16',
+        content: 'Note Content 16',
+        date: 'Feb 1'
+    },
+    {
+        title: 'Note Title 17',
+        content: 'Note Content 17',
+        date: 'Feb 2'
+    },
+    {
+        title: 'Note Title 18',
+        content: 'Note Content 18',
+        date: 'Mar 3',
+    },
+    {
+        title: 'Note Title 19',
+        content: 'Note Content 19',
+        date: 'Mar 4'
+    },
+    {
+        title: 'Note Title 20',
+        content: 'Note Content 20',
+        date: 'Mar 5'
+    },
 ]
+
+const breakpointColumnsObj = {
+    default: 4,  // For large screens
+    1400: 2,     // For medium screens
+    700: 1,      // For small screens
+};
 
 const HomePage = () => {
     return (
-        <>
-            <div className='w-11/12 h-screen bg-neutral-900'>
-            <div className='p-8'>
-                <h1 className='font-light text-4xl mb-6'>Notes</h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className="relative w-5/6 h-screen m-auto">
+            <div className="p-8">
+                <h1 className="font-light text-4xl mb-6">Notes</h1>
+
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="flex -ml-6 w-auto"
+                    columnClassName="pl-6 bg-clip-padding"
+                >
                     {notesData.map((note, index) => (
-                        <NoteCard key={index} data = {note}/>
+                        <div key={index} className="mb-6">
+                            <NoteCard data={note} />
+                        </div>
                     ))}
-                </div>
+                </Masonry>
             </div>
-            </div>
-            </>
-    )
-}
+            <AIBar />
+        </div>
+    );
+};
+
+
 
 export default HomePage
