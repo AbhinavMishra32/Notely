@@ -24,7 +24,7 @@ const HomePageLayout = () => {
     return (
         <>
             <div className='flex gap-2'>
-                <div className='sticky top-0 h-screen '>
+                <div className='sticky z-20 top-0 h-screen '>
                     <Sidebar>
                         <SidebarItem icon={<Search color='grey' size={17} />} link='/' text="Search" isNote={false} />
                         <SidebarGroup title='Notes'>
@@ -39,10 +39,11 @@ const HomePageLayout = () => {
                         </SidebarGroup>
                     </Sidebar>
                 </div>
+                {/* dummy div to push elements as sidebar is absolute */}
+                <div className='w-60'></div>
                 <div className='w-screen overflow-y-auto scrollbar-none bg-neutral-950'>
                     <Outlet />
                 </div>
-                {/* <AIPanel /> */}
             </div>
         </>
     )

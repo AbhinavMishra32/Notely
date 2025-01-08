@@ -1,7 +1,8 @@
 import { Search } from 'lucide-react';
 import React, { useState } from 'react';
 
-const AIBar = () => {
+const AIBar = ({ parentWidth }) => {
+    const leftOffset = parentWidth / 2;
     return (
         <>
             <div className={`w-full flex justify-center`}>
@@ -14,7 +15,13 @@ const AIBar = () => {
                     <div></div>
                 </div>
             </div>
-            <div className='fixed bottom-10 left-[1090px] transform -translate-x-1/2 '>
+            <div
+                className='fixed bottom-10'
+                style={{
+                    left: `calc(56% + ${leftOffset}px)`,  // Center relative to parent
+                    transform: 'translateX(-50%)',
+                }}
+            >
                 <div className='flex gap-2 items-center justify-center'>
                     <div className='flex items-center justify-center w-[50px] h-[50px] rounded-full bg-neutral-700/30 backdrop-blur-xl border-[1px] border-neutral-700' style={{ boxShadow: '0px 20px 47px 10px rgba(0,0,0,0.5)' }}>
                         <Search />
