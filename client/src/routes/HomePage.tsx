@@ -176,6 +176,7 @@ const HomePage = () => {
     const [parentWidth, setParentWidth] = useState(0);
     const [selectedNote, setSelectedNote] = useState(null);
     const [isHovered, setIsHovered] = useState(false);
+    const [isHoveredIcon, setIsHoveredIcon] = useState<string | null>('');
 
     useEffect(() => {
         if (parentRef.current) {
@@ -215,7 +216,7 @@ const HomePage = () => {
                                 <div className='p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl'
                                     onMouseEnter={() => setIsHovered(true)}
                                     onMouseLeave={() => setIsHovered(false)}>
-                                    <div className='flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration-200 ease-in-out'>
+                                    <div className='flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out'>
                                         <p className='text-md text-neutral-200 mb-2'>{selectedNote.title}</p>
                                         <div className='w-[500px] h-full relative'>
                                             <div className={`text-[14px] text-neutral-300 mb-3`}>
@@ -226,9 +227,9 @@ const HomePage = () => {
                                     </div>
                                 </div>
                                 <div className='absolute top-0 right-0 p-2'>
-                                    <div className='flex gap-2 items-center justify-center'>
-                                        <Link to={`/app/note/${selectedNote.title}`} ><Edit size={19} color='gray' /></Link>
-                                        <button className='' onClick={() => setSelectedNote(null)}><X size={22} color='gray' /></button>
+                                    <div className='flex gap-2 items-center justify-center m-2'>
+                                        <Link to={`/app/note/${selectedNote.title}`} onMouseEnter={() => setIsHoveredIcon('edit')} onMouseLeave={() => setIsHoveredIcon(null)}><Edit size={19} color={`${isHoveredIcon === 'edit' ? 'white' : 'gray'}`} /></Link>
+                                        <button className='' onClick={() => setSelectedNote(null)} onMouseEnter={() => setIsHoveredIcon('close')} onMouseLeave={() => setIsHoveredIcon(null)}><X size={22} color={`${isHoveredIcon === 'close' ? 'white' : 'gray'}`} /></button>
                                     </div>
                                 </div>
                             </div>
