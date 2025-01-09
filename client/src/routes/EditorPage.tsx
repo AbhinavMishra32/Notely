@@ -5,13 +5,14 @@ import { BubbleMenu, EditorContent, FloatingMenu, useEditor } from '@tiptap/reac
 import StarterKit from '@tiptap/starter-kit';
 import '../editorStyles.css';
 import { Toggle } from '@radix-ui/react-toggle';
-import { AlignHorizontalDistributeEnd, Bold, Code, Code2, Dot, Heading, Italic, List, Quote, Redo, Strikethrough as Strike, Strikethrough, Undo } from 'lucide-react';
+import { AlignHorizontalDistributeEnd, Bold, Code, Code2, Dot, Fullscreen, Heading, Italic, List, Quote, Redo, Strikethrough as Strike, Strikethrough, Undo } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const EditorPage = () => {
+    const [size, setSize] = useState("");
     const { id } = useParams();
     const editor = useEditor({
         extensions,
@@ -29,9 +30,17 @@ const EditorPage = () => {
         return null;
     }
 
+    const handleKeyPress = () => {
+        setSize("m-[1px]");
+
+        setTimeout(() => {
+            setSize("");
+        }, 100);
+    }
+
     return (
-        <div className="relative flex flex-col gap-2 mb-4 w-full h-screen" >
-            < div className="border rounded-xl mt-4" >
+        <div className="relative flex flex-col gap-2 ml-[36px] w-full h-screen" >
+            < div className="rounded-xl mt-4" >
                 <div className='flex flex-wrap items-center justify-center gap-1 p-3'>
                     <Toggle
                         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -123,35 +132,36 @@ const EditorPage = () => {
                     </Toggle>
                 </div>
             </div >
-            <div className='border p-4'>
-                <EditorContent editor={editor} aria-autocomplete='inline' />
-                <BubbleMenu editor={editor} className='bg-neutral-800 p-1 backdrop-blur-xl rounded-xl'>
+            <div className={`${size} transition-all duration-75 border px-4 pt-2 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => {handleKeyPress()}}>
+                <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 bg-inherit' placeholder='Title' />
+                <EditorContent editor={editor} aria-autocomplete='inline' className='w-full ' />
+                <BubbleMenu editor={editor} className='bg-neutral-800/40 p-1 backdrop-blur-sm rounded-xl'>
                     <div className='flex flex-wrap items-center justify-center gap-1'>
                         <Toggle
                             onClick={() => editor.chain().focus().toggleBold().run()}
                             disabled={!editor.can().chain().focus().toggleBold().run()}
-                            className={`px-2 py-2 rounded-md ${editor.isActive('bold') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                            className={`px-2 py-2 rounded-md backdrop-blur-sm ${editor.isActive('bold') ? 'bg-neutral-800/40 opacity-90' : 'bg-neutral-700/40 opacity-60'}`}
                         >
-                            <Bold className='h-4 w-4' />
+                            <Bold className='h-4 w-4 text-white' />
                         </Toggle>
                         <Toggle
                             onClick={() => editor.chain().focus().toggleItalic().run()}
                             disabled={!editor.can().chain().focus().toggleItalic().run()}
-                            className={`px-2 py-2 rounded-md ${editor.isActive('italic') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                            className={`px-2 py-2 rounded-md backdrop-blur-sm ${editor.isActive('italic') ? 'bg-neutral-800/40 opacity-90' : 'bg-neutral-700/40 opacity-60'}`}
                         >
-                            <Italic className='h-4 w-4' />
+                            <Italic className='h-4 w-4 text-white' />
                         </Toggle>
                         <Toggle
                             onClick={() => editor.chain().focus().toggleStrike().run()}
                             disabled={!editor.can().chain().focus().toggleStrike().run()}
-                            className={`px-2 py-2 rounded ${editor.isActive('strike') ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
-                            <Strikethrough className='h-4 w-4' />
+                            className={`px-2 py-2 rounded-md backdrop-blur-sm ${editor.isActive('strike') ? 'bg-neutral-800/40 opacity-90' : 'bg-neutral-700/40 opacity-60'}`}>
+                            <Strikethrough className='h-4 w-4 text-white' />
                         </Toggle>
                         <Toggle
                             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                            className={`px-2 py-2 rounded ${editor.isActive('orderedList') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                            className={`px-2 py-2 rounded-md backdrop-blur-sm ${editor.isActive('orderedList') ? 'bg-neutral-800/40 opacity-90' : 'bg-neutral-700/40 opacity-60'}`}
                         >
-                            <List className='h-4 w-4' />
+                            <List className='h-4 w-4 text-white' />
                         </Toggle>
                     </div>
                 </BubbleMenu>

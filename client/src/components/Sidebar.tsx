@@ -11,7 +11,7 @@ const Sidebar = ({ children }) => {
     const { user } = useUser();
     return (
         <div
-            className='fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-neutral-900 border-r-2 z-50' // Added fixed position and explicit width
+            className='fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-gradient-to-b from-neutral-900 to-neutral-950 border-r-2 z-50' // Added fixed position and explicit width
         >
             <div className='flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 rounded-xl'>
                 <div className='pl-3 pr-1 flex items-center justify-center'>
