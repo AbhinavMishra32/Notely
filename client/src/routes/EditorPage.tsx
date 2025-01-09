@@ -81,7 +81,7 @@ const EditorPage = () => {
                             <Toggle
                                 key={i}
                                 onClick={() => editor.chain().focus().toggleHeading({ level: i + 1 }).run()}
-                                className={`px-2 py-2 rounded ${editor.isActive('heading', { level: i + 1 }) ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                                className={`text-[] px-1 py-1 rounded ${editor.isActive('heading', { level: i + 1 }) ? 'bg-neutral-700' : 'bg-neutral-800'}`}
                             >
                                 <div className='flex items-center justify-center'>
                                     H{i + 1}
@@ -132,8 +132,8 @@ const EditorPage = () => {
                     </Toggle>
                 </div>
             </div >
-            <div className={`${size} transition-all duration-75 border px-4 pt-2 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => {handleKeyPress()}}>
-                <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 bg-inherit' placeholder='Title' />
+            <div className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => {handleKeyPress()}}>
+                <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 bg-inherit' placeholder='Title' />
                 <EditorContent editor={editor} aria-autocomplete='inline' className='w-full ' />
                 <BubbleMenu editor={editor} className='bg-neutral-800/40 p-1 backdrop-blur-sm rounded-xl'>
                     <div className='flex flex-wrap items-center justify-center gap-1'>
