@@ -12,3 +12,19 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id    String @id @default(uuid()) @db.Uuid
+  name  String @db.VarChar(255)
+  notes Note[]
+}
+
+model Note {
+  id         String   @id @default(uuid()) @db.Uuid
+  title      String   @db.VarChar(255)
+  content    String
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+  userId     String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id])
+}
