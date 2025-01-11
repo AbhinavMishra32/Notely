@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 
 const EditorPage = () => {
     const [size, setSize] = useState("");
+    const [hoverTools, setHoverTools] = useState(false);
     const { id } = useParams();
     const editor = useEditor({
         extensions,
@@ -41,100 +42,103 @@ const EditorPage = () => {
     return (
         <div className="relative flex flex-col gap-2 ml-[36px] w-full h-screen" >
             < div className="rounded-xl mt-4" >
-                <div className='flex flex-wrap items-center justify-center gap-1 p-3'>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                        disabled={!editor.can().chain().focus().toggleBold().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('bold') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Bold className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                        disabled={!editor.can().chain().focus().toggleItalic().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('italic') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Italic className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleStrike().run()}
-                        disabled={!editor.can().chain().focus().toggleStrike().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('strike') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Strikethrough className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleCode().run()}
-                        disabled={!editor.can().chain().focus().toggleCode().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('code') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Code className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
+                <div className='absolute top-0 left-1/2 transform -translate-x-1/2 w-3/5 h-[40px]' onMouseEnter={() => { setHoverTools(true) }} onMouseLeave={() => { setHoverTools(false) }}></div>
+                <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 ${hoverTools ? '-translate-y-[0px]' : '-translate-y-[80px]'} flex-wrap items-center justify-center gap-1 p-3 transition-all duration-300`} onMouseEnter={() => { setHoverTools(true) }} onMouseLeave={() => { setHoverTools(false) }}>
+                    <div className='flex gap-1'>
+                        <button
+                            onClick={() => editor.chain().focus().toggleBold().run()}
+                            disabled={!editor.can().chain().focus().toggleBold().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('bold') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Bold className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleItalic().run()}
+                            disabled={!editor.can().chain().focus().toggleItalic().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('italic') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Italic className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleStrike().run()}
+                            disabled={!editor.can().chain().focus().toggleStrike().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('strike') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Strikethrough className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleCode().run()}
+                            disabled={!editor.can().chain().focus().toggleCode().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('code') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Code className='h-4 w-4' />
+                        </button>
+                        {/* <button
                         onClick={() => editor.chain().focus().setParagraph().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('paragraph') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                        className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('paragraph') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
                     >
                         P
-                    </Toggle>
-                    {
+                    </button> */}
+                        {/* {
                         Array.from({ length: 6 }, (_, i) => (
-                            <Toggle
+                            <button
                                 key={i}
                                 onClick={() => editor.chain().focus().toggleHeading({ level: i + 1 }).run()}
-                                className={`text-[] px-1 py-1 rounded ${editor.isActive('heading', { level: i + 1 }) ? 'bg-neutral-700' : 'bg-neutral-800'}`}
+                                className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('heading', { level: i + 1 }) ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
                             >
                                 <div className='flex items-center justify-center'>
                                     H{i + 1}
                                 </div>
-                            </Toggle>
+                            </button>
                         ))
-                    }
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('bulletList') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Dot className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('orderedList') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <List className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('codeBlock') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Code2 className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                        className={`px-2 py-2 rounded ${editor.isActive('blockquote') ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                    >
-                        <Quote className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle onClick={() => editor.chain().focus().setHorizontalRule().run()} className="px-2 py-2 rounded bg-neutral-800">
-                        <AlignHorizontalDistributeEnd className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().undo().run()}
-                        disabled={!editor.can().chain().focus().undo().run()}
-                        className="px-2 py-2 rounded bg-neutral-800"
-                    >
-                        <Undo className='h-4 w-4' />
-                    </Toggle>
-                    <Toggle
-                        onClick={() => editor.chain().focus().redo().run()}
-                        disabled={!editor.can().chain().focus().redo().run()}
-                        className="px-2 py-2 rounded bg-neutral-800"
-                    >
-                        <Redo className='h-4 w-4' />
-                    </Toggle>
+                    } */}
+                        <button
+                            onClick={() => editor.chain().focus().toggleBulletList().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('bulletList') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Dot className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('orderedList') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <List className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('codeBlock') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Code2 className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                            className={`px-5 py-5 rounded-full backdrop-blur-sm ${editor.isActive('blockquote') ? 'bg-neutral-700/20' : 'bg-neutral-800/20 '} backdrop-blur-sm`} style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Quote className='h-4 w-4' />
+                        </button>
+                        <button onClick={() => editor.chain().focus().setHorizontalRule().run()} className="px-5 py-5 rounded-full backdrop-blur-sm bg-neutral-800/20" style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}>
+                            <AlignHorizontalDistributeEnd className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().undo().run()}
+                            disabled={!editor.can().chain().focus().undo().run()}
+                            className="px-5 py-5 rounded-full backdrop-blur-sm bg-neutral-800/20" style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Undo className='h-4 w-4' />
+                        </button>
+                        <button
+                            onClick={() => editor.chain().focus().redo().run()}
+                            disabled={!editor.can().chain().focus().redo().run()}
+                            className="px-5 py-5 rounded-full backdrop-blur-sm bg-neutral-800/20" style={{ boxShadow: '0px 0px 20px 7px rgba(0,0,0,0.4)' }}
+                        >
+                            <Redo className='h-4 w-4' />
+                        </button>
+                    </div>
                 </div>
             </div >
-            <div className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => {handleKeyPress()}}>
+            <div className={`${size} transition-all duration-500 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[30vh] hover:min-h-[80vh] max-h-[80vh] overflow-y-scroll scrollbar-none bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => { handleKeyPress() }}>
                 <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 bg-inherit' placeholder='Title' />
-                <EditorContent editor={editor} aria-autocomplete='inline' className='w-full ' />
+                <EditorContent editor={editor} aria-autocomplete='inline' className='w-full ml-2' />
                 <BubbleMenu editor={editor} className='bg-neutral-800/40 p-1 backdrop-blur-sm rounded-xl'>
                     <div className='flex flex-wrap items-center justify-center gap-1'>
                         <Toggle
