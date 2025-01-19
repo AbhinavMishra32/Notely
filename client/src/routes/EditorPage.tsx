@@ -11,21 +11,21 @@ import { useEffect, useState } from 'react';
 
 const EditorPage = () => {
     const [size, setSize] = useState("");
+    const [noteTitle, setNoteTitle] = useState("");
     const { id } = useParams();
     const editor = useEditor({
         extensions,
-        content: id,
+        content: localStorage.getItem('noteContent') || `<p>${id}</p>`,
         autofocus: true,
     });
 
     useEffect(() => {
-        if (editor) {
-            editor.commands.setContent(id);
-        }
-    }, [id, editor]);
+        setNoteTitle(localStorage.getItem('noteTitle') || "");
+    }, [])
+
 
     if (!editor) {
-        return null;
+        return;
     }
 
     const handleKeyPress = () => {
@@ -40,6 +40,7 @@ const EditorPage = () => {
         if (editor) {
             const content = editor.getHTML();
             localStorage.setItem('noteContent', content);
+            localStorage.setItem('noteTitle', noteTitle);
             console.log('Note saved: ', content);
         }
     }
@@ -142,7 +143,7 @@ const EditorPage = () => {
                 </div>
             </div >
             <div className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`} onKeyDown={() => { handleKeyPress() }}>
-                <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 bg-inherit' placeholder='Title' />
+                <input type='text' className='h-14 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis' placeholder='Title' value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} />
                 <EditorContent editor={editor} aria-autocomplete='inline' className='w-full ' />
                 <BubbleMenu editor={editor} className='bg-neutral-800/40 p-1 backdrop-blur-sm rounded-xl'>
                     <div className='flex flex-wrap items-center justify-center gap-1'>
