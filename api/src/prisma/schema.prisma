@@ -14,17 +14,19 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid()) @db.Uuid
-  name  String @db.VarChar(255)
-  notes Note[]
+  id       String @id @default(cuid())
+  clerkId  String @unique
+  username String @db.VarChar(255)
+  email    String @unique
+  notes    Note[]
 }
 
 model Note {
-  id         String   @id @default(uuid()) @db.Uuid
+  id         String   @id @default(cuid())
   title      String   @db.VarChar(255)
   content    String
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
-  userId     String   @db.Uuid
+  userId     String   @db.VarChar(255)
   user       User     @relation(fields: [userId], references: [id])
 }
