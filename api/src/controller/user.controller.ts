@@ -64,7 +64,7 @@ const signUp = async (eventData: any) => {
 
     const user = await prisma.user.create({
         data: {
-            id,
+            clerkId: id,
             username,
             email: email_address ?? "",
         }

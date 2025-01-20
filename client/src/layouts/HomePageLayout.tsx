@@ -1,52 +1,86 @@
-import { useAuth, useUser } from '@clerk/clerk-react'
-import { Sheet } from '@mui/joy';
-import React, { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom';
-import Sidebar, { SidebarGroup, SidebarItem } from '../components/Sidebar';
-import { HelpCircle, HelpingHand, NotebookText, Search, Settings2 } from 'lucide-react';
-import AIPanel from '../components/AIPanel';
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { Sheet } from "@mui/joy";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import Sidebar, { SidebarGroup, SidebarItem } from "../components/Sidebar";
+import {
+  HelpCircle,
+  HelpingHand,
+  NotebookText,
+  Search,
+  Settings2,
+} from "lucide-react";
+import AIPanel from "../components/AIPanel";
 
 const HomePageLayout = () => {
-    const { isSignedIn, signOut } = useAuth();
-    const { user, isLoaded } = useUser();
-    const navigate = useNavigate();
+  const { isSignedIn, signOut } = useAuth();
+  const { user, isLoaded } = useUser();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isLoaded && !isSignedIn) {
-            navigate('/sign-in');
-        }
-    }, [isLoaded, isSignedIn]);
-
-    if (!isLoaded) {
-        return <div>Loading...</div>;
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      navigate("/sign-in");
     }
+  }, [isLoaded, isSignedIn]);
 
-    return (
-        <>
-            <div className='flex gap-2'>
-                <div className='sticky z-20 top-0 h-screen '>
-                    <Sidebar>
-                        <SidebarItem icon={<Search color='grey' size={17} />} link='/' text="Search" isNote={false} />
-                        <SidebarGroup title='Notes'>
-                            <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/note-title-1-2qg3jl23gasdf' text='note title 1' isNote={true} />
-                            <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/helo-asem3wlk2fj2f23' text='helo' isNote={true} />
-                            <SidebarItem icon={<NotebookText color='grey' size={17} />} link='/app/note/nice-note-asdfavbwmklvm32lk23k5' text='nice note' isNote={true} />
-                        </SidebarGroup>
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
-                        <SidebarGroup title="Settings">
-                            <SidebarItem icon={<Settings2 color='gray' size={17} />} link='/settings' text='Settings' isNote={false} />
-                            <SidebarItem icon={<HelpCircle color='gray' size={17} />} link='/help' text='Help' isNote={false} />
-                        </SidebarGroup>
-                    </Sidebar>
-                </div>
-                {/* dummy div to push elements as sidebar is absolute */}
-                <div className='w-60'></div>
-                <div className='w-screen overflow-y-auto scrollbar-none bg-neutral-950'>
-                    <Outlet />
-                </div>
-            </div>
-        </>
-    )
-}
+  return (
+    <>
+      <div className="flex">
+        <div className="sticky z-20 left-0 top-0 h-screen w-60">
+          <Sidebar>
+            <SidebarItem
+              icon={<Search color="grey" size={17} />}
+              link="/"
+              text="Search"
+              isNote={false}
+            />
+            <SidebarGroup title="Notes">
+              <SidebarItem
+                icon={<NotebookText color="grey" size={17} />}
+                link="/app/note/note-title-1-2qg3jl23gasdf"
+                text="note title 1"
+                isNote={true}
+              />
+              <SidebarItem
+                icon={<NotebookText color="grey" size={17} />}
+                link="/app/note/helo-asem3wlk2fj2f23"
+                text="helo"
+                isNote={true}
+              />
+              <SidebarItem
+                icon={<NotebookText color="grey" size={17} />}
+                link="/app/note/nice-note-asdfavbwmklvm32lk23k5"
+                text="nice note"
+                isNote={true}
+              />
+            </SidebarGroup>
 
-export default HomePageLayout
+            <SidebarGroup title="Settings">
+              <SidebarItem
+                icon={<Settings2 color="gray" size={17} />}
+                link="/settings"
+                text="Settings"
+                isNote={false}
+              />
+              <SidebarItem
+                icon={<HelpCircle color="gray" size={17} />}
+                link="/help"
+                text="Help"
+                isNote={false}
+              />
+            </SidebarGroup>
+          </Sidebar>
+        </div>
+        <div className="flex-1 overflow-y-auto scrollbar-none bg-neutral-950">
+          <Outlet />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default HomePageLayout;
