@@ -21,20 +21,20 @@ app.use(cors({
     credentials: true,
 }))
 
-// const legacyRequireAuth = (req: any, res: any, next: any) => {
-//     if (!req.auth) {
-//         return next(new Error('Unauthenticated'))
-//     }
-//     next()
-// }
+const legacyRequireAuth = (req: any, res: any, next: any) => {
+    if (!req.auth) {
+        return next(new Error('Unauthenticated'))
+    }
+    next()
+}
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/:name', (req: Request, res: Response,) => {
-    res.send('Hello ' + req.params.name);
-});
+// app.get('/:name', (req: Request, res: Response,) => {
+//     res.send('Hello ' + req.params.name);
+// });
 
 app.get('/protected', requireAuth({ signInUrl: "/sign-in" }), async (req: Request, res: Response) => {
     // console.log(req);
@@ -49,7 +49,7 @@ app.get('/protected', requireAuth({ signInUrl: "/sign-in" }), async (req: Reques
 });
 
 app.use('/api/user', userRouter);
-app.use('/api/note', notesRouter);
+app.use('/api/note', legacyRequireAuth, notesRouter);
 
 
 app.use((err: any, req: any, res: any, next: any) => {

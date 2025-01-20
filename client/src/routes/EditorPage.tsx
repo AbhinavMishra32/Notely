@@ -54,7 +54,7 @@ const EditorPage = () => {
       setSaving(true);
       if (editor) {
         const content = editor.getHTML();
-        const response = await axios.post("/api/note", {
+        const response = await axios.post("http://localhost:3000/api/note", {
           title: noteTitle,
           content: content,
         });
@@ -62,7 +62,7 @@ const EditorPage = () => {
         console.log(response);
         //   localStorage.setItem("noteContent", content);
         //   localStorage.setItem("noteTitle", noteTitle);
-        console.log("Note saved: ", content);
+        // console.log("Note saved: ", content);
       }
     } catch (err) {
       console.log(err);
