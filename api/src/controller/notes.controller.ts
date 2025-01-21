@@ -110,7 +110,11 @@ export const fetchNote = async (req: any, res: Response, next: NextFunction) => 
         // console.log(noteId);
 
         const note = await prisma.note.findUnique({
-            where: { id: noteId, user: { clerkId: userId } }
+            where: { id: noteId }
+        })
+
+        const user = await prisma.user.findUnique({
+            where: { clerkId: userId }
         })
         console.log("note: ", note);
 
@@ -119,6 +123,14 @@ export const fetchNote = async (req: any, res: Response, next: NextFunction) => 
                 success: false,
                 message: "Note by user not found or note doesn't exist"
             })
+        }
+
+        if (note.userId !== user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "You dont have permission to edit this note",
+                note
+            });
         }
 
         res.status(200).json({
