@@ -50,19 +50,20 @@ app.get('/protected', requireAuth({ signInUrl: "/sign-in" }), async (req: Reques
 
 app.use('/api/user', userRouter);
 app.use('/api/note', legacyRequireAuth, notesRouter);
+// app.use('/api/note', requireAuth(), notesRouter);
 
 
-app.use((err: any, req: any, res: any, next: any) => {
-    console.error(err.stack)
-    res.status(401).send('Unauthenticated!')
-})
+// app.use((err: any, req: any, res: any, next: any) => {
+//     console.error(err.stack)
+//     res.status(401).send('Unauthenticated!')
+// })
 
-app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Internal Server Error';
-    res.status(statusCode).json({
-        success: false,
-        statusCode,
-        message,
-    });
-})
+// app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
+//     const statusCode = err.statusCode || 500;
+//     const message = err.message || 'Internal Server Error';
+//     res.status(statusCode).json({
+//         success: false,
+//         statusCode,
+//         message,
+//     });
+// })

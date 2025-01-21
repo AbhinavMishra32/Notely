@@ -21,21 +21,59 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 
 const EditorPage = () => {
   const [size, setSize] = useState("");
   const [noteTitle, setNoteTitle] = useState("");
-  const { id } = useParams();
+  const [content, updateContent] = useState("");
+  const [allowedAccess, setAllowedAccess] = useState(true);
+  const { noteId } = useParams();
   const [saving, setSaving] = useState(false);
-  const editor = useEditor({
-    extensions,
-    content: localStorage.getItem("noteContent") || `<p>${id}</p>`,
-    autofocus: true,
-  });
+  const [fetchingNote, setFetchingNote] = useState(true);
+
+  const { getToken } = useAuth();
+
+  const setEditorContent = (content: string) => {
+    editor?.commands.setContent(content);
+  }
+
+  const fetchNote = async (noteId: string | undefined) => {
+    if (!noteId) {
+      console.log("noteId is undefined");
+      return;
+    }
+    try {
+      const response = await axios.get(`http://localhost:3000/api/note/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      });
+      if (response.status == 403) {
+        setAllowedAccess(false);
+      }
+      setNoteTitle(response.data.note.title);
+      setEditorContent(response.data.note.content); // Set content only once
+      setFetchingNote(false);
+    }
+    catch (err) {
+      console.log("Error fetching note: ", err);
+      if (err.status == 403) {
+        setAllowedAccess(false);
+      }
+      setFetchingNote(false);
+    }
+  }
 
   useEffect(() => {
-    setNoteTitle(localStorage.getItem("noteTitle") || "");
+    fetchNote(noteId);
   }, []);
+
+  const editor = useEditor({
+    extensions,
+    content: content,
+    autofocus: true,
+  });
 
   if (!editor) {
     return;
@@ -54,17 +92,27 @@ const EditorPage = () => {
       setSaving(true);
       if (editor) {
         const content = editor.getHTML();
-        const response = await axios.post("http://localhost:3000/api/note", {
+        const response = await axios.put(`http://localhost:3000/api/note/${noteId}`, {
           title: noteTitle,
           content: content,
+        }, {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`
+          }
         });
+        if (response.status == 403) {
+          setAllowedAccess(false);
+        }
         setSaving(false);
-        console.log(response);
+        console.log("saveNote response: ", response);
         //   localStorage.setItem("noteContent", content);
         //   localStorage.setItem("noteTitle", noteTitle);
         // console.log("Note saved: ", content);
       }
     } catch (err) {
+      if (err.status == 403) {
+        setAllowedAccess(false);
+      }
       console.log(err);
     }
   };
@@ -76,44 +124,39 @@ const EditorPage = () => {
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("bold") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("bold") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             <Bold className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("italic") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("italic") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             <Italic className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("strike") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("strike") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             <Strikethrough className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("code") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("code") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             <Code className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().setParagraph().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("paragraph") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("paragraph") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             P
           </button>
@@ -132,39 +175,35 @@ const EditorPage = () => {
                     } */}
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("bulletList")
-                ? "bg-neutral-700"
-                : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("bulletList")
+              ? "bg-neutral-700"
+              : "bg-neutral-800"
+              }`}
           >
             <Dot className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("orderedList")
-                ? "bg-neutral-700"
-                : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("orderedList")
+              ? "bg-neutral-700"
+              : "bg-neutral-800"
+              }`}
           >
             <List className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("codeBlock") ? "bg-neutral-700" : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("codeBlock") ? "bg-neutral-700" : "bg-neutral-800"
+              }`}
           >
             <Code2 className="h-4 w-4" />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            className={`px-2 py-2 rounded ${
-              editor.isActive("blockquote")
-                ? "bg-neutral-700"
-                : "bg-neutral-800"
-            }`}
+            className={`px-2 py-2 rounded ${editor.isActive("blockquote")
+              ? "bg-neutral-700"
+              : "bg-neutral-800"
+              }`}
           >
             <Quote className="h-4 w-4" />
           </button>
@@ -196,6 +235,7 @@ const EditorPage = () => {
             {saving ? "..." : <CloudUpload className="h-6 w-6" />}
           </button>
         </div>
+        {!allowedAccess && "You dont have permissions to edit this note"}
       </div>
       <div
         className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
@@ -203,68 +243,74 @@ const EditorPage = () => {
           handleKeyPress();
         }}
       >
-        <input
-          type="text"
-          className="h-14 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
-          placeholder="Title"
-          value={noteTitle}
-          onChange={(e) => setNoteTitle(e.target.value)}
-        />
-        <EditorContent
-          editor={editor}
-          aria-autocomplete="inline"
-          className="w-full "
-        />
-        <BubbleMenu
-          editor={editor}
-          className="bg-neutral-800/40 p-1 backdrop-blur-sm rounded-xl"
-        >
-          <div className="flex flex-wrap items-center justify-center gap-1">
-            <button
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              disabled={!editor.can().chain().focus().toggleBold().run()}
-              className={`px-2 py-2 rounded-md backdrop-blur-sm ${
-                editor.isActive("bold")
-                  ? "bg-neutral-800/40 opacity-90"
-                  : "bg-neutral-700/40 opacity-60"
-              }`}
-            >
-              <Bold className="h-4 w-4 text-white" />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              disabled={!editor.can().chain().focus().toggleItalic().run()}
-              className={`px-2 py-2 rounded-md backdrop-blur-sm ${
-                editor.isActive("italic")
-                  ? "bg-neutral-800/40 opacity-90"
-                  : "bg-neutral-700/40 opacity-60"
-              }`}
-            >
-              <Italic className="h-4 w-4 text-white" />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              disabled={!editor.can().chain().focus().toggleStrike().run()}
-              className={`px-2 py-2 rounded-md backdrop-blur-sm ${
-                editor.isActive("strike")
-                  ? "bg-neutral-800/40 opacity-90"
-                  : "bg-neutral-700/40 opacity-60"
-              }`}
-            >
-              <Strikethrough className="h-4 w-4 text-white" />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              className={`px-2 py-2 rounded-md backdrop-blur-sm ${
-                editor.isActive("orderedList")
-                  ? "bg-neutral-800/40 opacity-90"
-                  : "bg-neutral-700/40 opacity-60"
-              }`}
-            >
-              <List className="h-4 w-4 text-white" />
-            </button>
+        {fetchingNote ? (
+          <div className="flex items-center justify-center w-full h-full rounded-xl bg-neutral-901 transition-opacity duration-1000 opacity-30">
+            <div className="">
+              Loading...
+            </div>
           </div>
-        </BubbleMenu>
+        ) : (
+          <div className="transition-opacity duration-501 opacity-100">
+            <input
+              type="text"
+              className="h-15 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
+              placeholder="Title"
+              value={noteTitle}
+              onChange={(e) => setNoteTitle(e.target.value)}
+            />
+            <EditorContent
+              editor={editor}
+              aria-autocomplete="inline"
+              className="w-full "
+            />
+            <BubbleMenu
+              editor={editor}
+              className="bg-neutral-801/40 p-1 backdrop-blur-sm rounded-xl"
+            >
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                  disabled={!editor.can().chain().focus().toggleBold().run()}
+                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("bold")
+                    ? "bg-neutral-801/40 opacity-90"
+                    : "bg-neutral-701/40 opacity-60"
+                    }`}
+                >
+                  <Bold className="h-5 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                  disabled={!editor.can().chain().focus().toggleItalic().run()}
+                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("italic")
+                    ? "bg-neutral-801/40 opacity-90"
+                    : "bg-neutral-701/40 opacity-60"
+                    }`}
+                >
+                  <Italic className="h-5 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                  disabled={!editor.can().chain().focus().toggleStrike().run()}
+                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("strike")
+                    ? "bg-neutral-801/40 opacity-90"
+                    : "bg-neutral-701/40 opacity-60"
+                    }`}
+                >
+                  <Strikethrough className="h-5 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("orderedList")
+                    ? "bg-neutral-801/40 opacity-90"
+                    : "bg-neutral-701/40 opacity-60"
+                    }`}
+                >
+                  <List className="h-5 w-4 text-white" />
+                </button>
+              </div>
+            </BubbleMenu>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -286,6 +332,7 @@ const extensions = [
     },
   }),
 ];
+
 
 // const content = `
 // <h2 class="text-2xl">

@@ -48,6 +48,9 @@ export const webhook = async (req: any, res: Response, next: NextFunction) => {
     if (event.type == "user.created") {
         await signUp(event.data);
     }
+    else if (event.type == "user.deleted") {
+        await deleteUser(event.data);
+    }
 
     return res.status(200).json({
         success: true,
@@ -56,17 +59,42 @@ export const webhook = async (req: any, res: Response, next: NextFunction) => {
 }
 
 const signUp = async (eventData: any) => {
-    const { id, username, first_name, last_name } = eventData;
-    const { email_address } = eventData.email_addresses[0];
-    console.log(username);
-    console.log(id);
-    console.log(email_address);
+    try {
+        const { id, username, first_name, last_name } = eventData;
+        const { email_address } = eventData.email_addresses[0];
 
-    const user = await prisma.user.create({
-        data: {
-            clerkId: id,
-            username,
-            email: email_address ?? "",
+        const existingUser = await prisma.user.findUnique({
+            where: { email: email_address }
+        });
+
+        if (existingUser) {
+            console.log(`User with email ${email_address} already exists.`);
+            return;
         }
-    })
+
+        const user = await prisma.user.create({
+            data: {
+                clerkId: id,
+                username,
+                email: email_address ?? "",
+            }
+        });
+        console.log(`User created ID: ${id}, username: ${username}`);
+    } catch (error) {
+        console.error('Error occurred while creating user: ', error);
+    }
+};
+
+const deleteUser = async (eventData: any) => {
+    const { id } = eventData;
+
+    try {
+        await prisma.note.deleteMany({ where: { userId: id } });
+
+        const user = await prisma.user.delete({ where: { clerkId: id } });
+        console.log(`User with ID ${id} and their notes deleted successfully.`);
+    } catch (error) {
+        console.error(`Error deleting user with ID ${id} and their notes:`, error);
+        // throw new Error(`Failed to delete user with ID ${id}`);
+    }
 }

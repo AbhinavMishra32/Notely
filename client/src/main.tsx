@@ -25,7 +25,7 @@ const router = createBrowserRouter([
           {
             path: 'note/*', element: <EditorPageLayout />,
             children: [
-              { path: ':id', element: <EditorPage /> },
+              { path: ':noteId', element: <EditorPage /> },
             ]
           },
         ]

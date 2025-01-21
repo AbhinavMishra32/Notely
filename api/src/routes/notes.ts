@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { updateNote } from "../controller/notes.controller";
+import { addNote, fetchNote, updateNote } from "../controller/notes.controller";
 
 const router = Router();
 
-router.post('/', updateNote);
+router.get('/:noteId', fetchNote);
+router.post('/', addNote);
+router.put('/:noteId', updateNote);
 
 export default router;
