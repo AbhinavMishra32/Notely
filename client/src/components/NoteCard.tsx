@@ -25,12 +25,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ data }) => {
             {data.content}
           </div>
           <div
-            className={`${
-              data.content.length > 20 &&
-              `absolute z-0 bottom-0 left-0 right-0 h-20 bg-gradient-to-t ${
-                isHovered ? "from-inherit" : "from-neutral-900"
+            className={`${data.content.length > 20 &&
+              `absolute z-0 bottom-0 left-0 right-0 h-20 bg-gradient-to-t ${isHovered ? "from-inherit" : "from-neutral-900"
               } to-transparent transition-all duration-200 ease-in-out`
-            } `}
+              } `}
           ></div>
         </div>
         <p className="text-xs text-neutral-500 mt-auto self-end">{data.date}</p>

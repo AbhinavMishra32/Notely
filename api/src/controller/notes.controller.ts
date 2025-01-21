@@ -144,3 +144,25 @@ export const fetchNote = async (req: any, res: Response, next: NextFunction) => 
         // next(err);
     }
 }
+
+export const fetchAllNotes = async (req: any, res: Response, next: NextFunction) => {
+    const { userId } = req.auth;
+    try {
+        const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found, cant fetch notes"
+            });
+        }
+
+        const notes = await prisma.note.findMany({ where: { userId: user.id } });
+        res.status(200).json({
+            success: true,
+            notes
+        });
+    } catch (error) {
+        console.log("Error in fetchAllNotes: ", error);
+    }
+}

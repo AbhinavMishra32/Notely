@@ -240,11 +240,13 @@ const EditorPage = () => {
             </button>
           </div>
         )}
-        <div className="flex items-center justify-center">
-          <div className="inline-flex gap-2 bg-neutral-800/50 border border-red-800/40 px-2 py-1 rounded-md">
-            <ShieldClose /> You don't have permissions to edit this note
+        {!allowedAccess && (
+          <div className="flex items-center justify-center">
+            <div className="inline-flex gap-2 bg-neutral-800/50 border border-red-800/40 px-2 py-1 rounded-md">
+              <ShieldClose /> You don't have permission to edit this note
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div
         className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
@@ -259,7 +261,7 @@ const EditorPage = () => {
             </div>
           </div>
         ) : (
-          <div className="transition-opacity duration-501 opacity-100">
+          <div className="transition-opacity duration-500 opacity-100">
             <input
               type="text"
               className="h-15 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
