@@ -76,7 +76,10 @@ const HomePageLayout = () => {
                   link={`/app/note/${note.id}`}
                   id={note.id}
                   text={note.title}
-                  isNote={true} />
+                  isNote={true}
+                  notes={notes}
+                  fetchAllNotes={fetchAllNotes}
+                   />
               )))}
             </SidebarGroup>
             {/* <SidebarItem
