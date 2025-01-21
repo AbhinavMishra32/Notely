@@ -6,6 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Edit, Edit2, Edit3, Plus, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
+import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
+import { getTooltipUtilityClass } from "@mui/joy";
 
 const notesData = [
   {
@@ -178,15 +181,39 @@ const HomePage = () => {
   const parentRef = useRef(null);
   const [parentWidth, setParentWidth] = useState(0);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isHoveredIcon, setIsHoveredIcon] = useState<string | null>("");
+  const [notes, setNotes] = useState<{ title: string, content: string, date: string }[]>([])
 
   const [sidebarWidth, setSidebarWidth] = useState(64);
+
+  const { getToken } = useAuth();
 
   useEffect(() => {
     if (parentRef.current) {
       setParentWidth(parentRef.current.offsetWidth); // Get parent container's width
     }
+  }, []);
+
+  const fetchAllNotes = async () => {
+    try {
+      const notesData = await axios.get('http://localhost:3000/api/note', {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      })
+      // console.log(notesData.data);
+      setNotes(notesData.data.notes);
+      // console.log("notesData.data: ", notesData.data);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error while fetching all notes: ", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchAllNotes();
   }, []);
 
   //
@@ -218,17 +245,19 @@ const HomePage = () => {
           className="flex -ml-6 w-auto"
           columnClassName="pl-6 bg-clip-padding"
         >
-          {notesData.map((note, index) => (
-            <div
-              key={index}
-              className="cursor-pointer mb-6"
-              onClick={() => {
-                setSelectedNote(note);
-              }}
-            >
-              <NoteCard data={note} />
-            </div>
-          ))}
+          {loading ? <div>Loading...</div> : (
+            notes.map((note, index) => (
+              <div
+                key={note.id}
+                className="cursor-pointer mb-6"
+                onClick={() => {
+                  setSelectedNote(note);
+                }}
+              >
+                <NoteCard data={{ title: note.title, content: note.content, date: new Date(note.createdAt).toDateString() }} />
+              </div>
+            ))
+          )}
         </Masonry>
       </div>
 
@@ -270,7 +299,7 @@ const HomePage = () => {
                 <div className="absolute top-0 right-0 p-2">
                   <div className="flex gap-2 items-center justify-center m-2">
                     <Link
-                      to={`/app/note/${selectedNote.title}`}
+                      to={`/app/note/${selectedNote.id}`}
                       onMouseEnter={() => setIsHoveredIcon("edit")}
                       onMouseLeave={() => setIsHoveredIcon(null)}
                     >
@@ -287,9 +316,8 @@ const HomePage = () => {
                     >
                       <X
                         size={22}
-                        color={`${
-                          isHoveredIcon === "close" ? "white" : "gray"
-                        }`}
+                        color={`${isHoveredIcon === "close" ? "white" : "gray"
+                          }`}
                       />
                     </button>
                   </div>

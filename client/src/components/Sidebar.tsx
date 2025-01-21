@@ -23,6 +23,7 @@ import {
   DropdownMenuLabel,
 } from "@radix-ui/react-dropdown-menu";
 import { Autocomplete } from "@mui/joy";
+import axios from "axios";
 
 const Sidebar = ({ children }) => {
   const { user } = useUser();
@@ -74,14 +75,26 @@ export const SidebarItem: React.FC<{
   text: string;
   link: string;
   isNote: boolean;
-}> = ({ icon, text, link, isNote }) => {
+  id: string,
+}> = ({ icon, text, link, isNote, id }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
+
+  const deleteNote = async (noteId: string) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/note/${noteId}`);
+      console.log("response from deleteNote: ", response);
+      setIsActive(false);
+      setIsHovered(false);
+    } catch (error) {
+      console.log("Error while deleting note: ", error);
+    }
+  }
+
   return (
     <div
-      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${
-        isActive ? "bg-neutral-800" : ""
-      } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
+      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${isActive ? "bg-neutral-800" : ""
+        } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -102,16 +115,14 @@ export const SidebarItem: React.FC<{
             {isNote ? (
               <>
                 <div
-                  className={`absolute transition-opacity duration-200 mr-2 ${
-                    isHovered ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`absolute transition-opacity duration-200 mr-2 ${isHovered ? "opacity-0" : "opacity-100"
+                    }`}
                 >
                   {icon}
                 </div>
                 <div
-                  className={`absolute transition-opacity duration-200 ${
-                    isHovered ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={`absolute transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
+                    }`}
                 >
                   <ChevronRightIcon size={16} color="gray" />
                 </div>
@@ -126,7 +137,7 @@ export const SidebarItem: React.FC<{
               </>
             )}
           </div>
-          <div className="font-inter text-neutral-400 text-[15px] antialiased">
+          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden">
             {text}
           </div>
         </div>
@@ -134,11 +145,10 @@ export const SidebarItem: React.FC<{
       {isNote && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${
-              isHovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"
+              }`}
           >
-            <div className="hover:bg-neutral-700 p-[2px] rounded-md border border-transparent hover:border-neutral-600">
+            <div className="absolute right-4 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
               <MoreHorizontal size={16} color="gray" />
             </div>
           </DropdownMenuTrigger>
@@ -146,7 +156,7 @@ export const SidebarItem: React.FC<{
             className="absolute z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60"
             style={{ boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.6)" }}
           >
-            <button className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out">
+            <button className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out" onClick={() => deleteNote(id)}>
               <div className="flex items-center">
                 <div
                   className="flex items-center justify-center mr-1 overflow-hidden"

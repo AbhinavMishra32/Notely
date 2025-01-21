@@ -1,6 +1,5 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { Sheet } from "@mui/joy";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar, { SidebarGroup, SidebarItem } from "../components/Sidebar";
 import {
@@ -11,11 +10,16 @@ import {
   Settings2,
 } from "lucide-react";
 import AIPanel from "../components/AIPanel";
+import axios from "axios";
+import { Skeleton } from "../components/ui/skeleton";
 
 const HomePageLayout = () => {
   const { isSignedIn, signOut } = useAuth();
   const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const navigate = useNavigate();
+  const [notes, setNotes] = useState<{ title: string, content: string, date: string, id: string }[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -23,9 +27,29 @@ const HomePageLayout = () => {
     }
   }, [isLoaded, isSignedIn]);
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
+  // if (!isLoaded) {
+  //   return <div>Loading...</div>;
+  // }
+
+  const fetchAllNotes = async () => {
+    try {
+      const notesData = await axios.get('http://localhost:3000/api/note', {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      })
+      setNotes(notesData.data.notes);
+      console.log("notesData.data from sidebar: ", notesData.data);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error while fetching all notes: ", error);
+    }
   }
+
+  useEffect(() => {
+    fetchAllNotes();
+  }, []);
+
 
   return (
     <>
@@ -39,7 +63,23 @@ const HomePageLayout = () => {
               isNote={false}
             />
             <SidebarGroup title="Notes">
-              <SidebarItem
+              {loading ? (
+                <div className="flex-col">
+                  <Skeleton className="rounded-md h-[30px] mb-1" />
+                  <Skeleton className="rounded-md h-[30px] my-1" />
+                  <Skeleton className="rounded-md h-[30px] mt-1" />
+                </div>
+              ) : (notes.map((note, index) => (
+                <SidebarItem
+                  key={index}
+                  icon={<NotebookText color="grey" size={17} />}
+                  link={`/app/note/${note.id}`}
+                  id={note.id}
+                  text={note.title}
+                  isNote={true} />
+              )))}
+            </SidebarGroup>
+            {/* <SidebarItem
                 icon={<NotebookText color="grey" size={17} />}
                 link="/app/note/note-title-1-2qg3jl23gasdf"
                 text="note title 1"
@@ -57,7 +97,7 @@ const HomePageLayout = () => {
                 text="nice note"
                 isNote={true}
               />
-            </SidebarGroup>
+            </SidebarGroup> */}
 
             <SidebarGroup title="Settings">
               <SidebarItem
