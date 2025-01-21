@@ -81,7 +81,7 @@ const HomePage = () => {
         <Navbar />
       {notes.length === 0 ? (
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-neutral-900 w-[250px] h-[250px] rounded-3xl border">
+          <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2  xl border">
             <div className="flex items-center justify-center h-full">
               <div className="flex flex-col gap-5 items-center justify-center">
               <div className="w-[120px] h-[120px] bg-neutral-800 rounded-2xl border flex items-center justify-center">

@@ -149,3 +149,28 @@
       rgba(0, 0, 0, 0) 87.5%,
       rgba(0, 0, 0, 1) 100%);
 }
+
+.sidebar-group {
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a #2e2e2e;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2e2e2e;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 10px;
+}

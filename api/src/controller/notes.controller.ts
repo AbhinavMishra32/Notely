@@ -157,7 +157,7 @@ export const fetchAllNotes = async (req: any, res: Response, next: NextFunction)
             });
         }
 
-        const notes = await prisma.note.findMany({ where: { userId: user.id } });
+        const notes = await prisma.note.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' } });
         res.status(200).json({
             success: true,
             notes
