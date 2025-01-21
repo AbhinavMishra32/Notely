@@ -25,7 +25,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ data }) => {
             <div dangerouslySetInnerHTML={{ __html: data.content }} />
           </div>
           <div
-            className={`${data.content.length > 20 &&
+            className={`${data.content.length > 200 &&
               `absolute z-0 bottom-0 left-0 right-0 h-20 bg-gradient-to-t ${isHovered ? "from-inherit" : "from-neutral-900"
               } to-transparent transition-all duration-200 ease-in-out`
               } `}

@@ -261,10 +261,10 @@ const EditorPage = () => {
             </div>
           </div>
         ) : (
-          <div className="transition-opacity duration-500 opacity-100">
+            <div className="transition-opacity duration-500 opacity-100 max-w-full text-wrap break-words overflow-y-auto">
             <input
               type="text"
-              className="h-15 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
+              className="text-neutral-200 h-15 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
               placeholder="Title"
               value={noteTitle}
               onChange={(e) => setNoteTitle(e.target.value)}
@@ -272,48 +272,48 @@ const EditorPage = () => {
             <EditorContent
               editor={editor}
               aria-autocomplete="inline"
-              className="w-full "
+              className="w-full text-wrap break-words text-neutral-300 h-[calc(100vh-200px)] overflow-y-auto"
             />
             <BubbleMenu
               editor={editor}
-              className="bg-neutral-801/40 p-1 backdrop-blur-sm rounded-xl"
+              className=" p-1 backdrop-blur-xl border bg-neutral-800/20 border-neutral-700/50 rounded-xl"
             >
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <button
-                  onClick={() => editor.chain().focus().toggleBold().run()}
-                  disabled={!editor.can().chain().focus().toggleBold().run()}
-                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("bold")
-                    ? "bg-neutral-801/40 opacity-90"
-                    : "bg-neutral-701/40 opacity-60"
-                    }`}
-                >
-                  <Bold className="h-5 w-4 text-white" />
-                </button>
-                <button
-                  onClick={() => editor.chain().focus().toggleItalic().run()}
-                  disabled={!editor.can().chain().focus().toggleItalic().run()}
-                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("italic")
-                    ? "bg-neutral-801/40 opacity-90"
-                    : "bg-neutral-701/40 opacity-60"
-                    }`}
-                >
-                  <Italic className="h-5 w-4 text-white" />
-                </button>
-                <button
-                  onClick={() => editor.chain().focus().toggleStrike().run()}
-                  disabled={!editor.can().chain().focus().toggleStrike().run()}
-                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("strike")
-                    ? "bg-neutral-801/40 opacity-90"
-                    : "bg-neutral-701/40 opacity-60"
-                    }`}
-                >
-                  <Strikethrough className="h-5 w-4 text-white" />
-                </button>
+              <button
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              disabled={!editor.can().chain().focus().toggleBold().run()}
+              className={`px-3 py-2 rounded-md ${editor.isActive("bold")
+              ? "opacity-100"
+              : "opacity-50"
+              }`}
+              >
+              <Bold className="h-5 w-4 text-white" />
+              </button>
+              <button
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                disabled={!editor.can().chain().focus().toggleItalic().run()}
+                className={`px-3 py-2 rounded-md ${editor.isActive("italic")
+                ? " opacity-100"
+                : " opacity-50"
+                }`}
+              >
+                <Italic className="h-5 w-4 text-white" />
+              </button>
+              <button
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+                disabled={!editor.can().chain().focus().toggleStrike().run()}
+                className={`px-3 py-2 rounded-md ${editor.isActive("strike")
+                ? "opacity-100"
+                : "opacity-50"
+                }`}
+              >
+                <Strikethrough className="h-5 w-4 text-white" />
+              </button>
                 <button
                   onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                  className={`px-3 py-2 rounded-md backdrop-blur-sm ${editor.isActive("orderedList")
-                    ? "bg-neutral-801/40 opacity-90"
-                    : "bg-neutral-701/40 opacity-60"
+                  className={`px-3 py-2 rounded-md ${editor.isActive("orderedList")
+                    ? "opacity-100"
+                    : "opacity-50"
                     }`}
                 >
                   <List className="h-5 w-4 text-white" />

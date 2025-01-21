@@ -81,7 +81,7 @@ const HomePage = () => {
         <Navbar />
       {notes.length === 0 ? (
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2  xl border">
+          <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2xl border">
             <div className="flex items-center justify-center h-full">
               <div className="flex flex-col gap-5 items-center justify-center">
               <div className="w-[120px] h-[120px] bg-neutral-800 rounded-2xl border flex items-center justify-center">
@@ -144,17 +144,17 @@ const HomePage = () => {
                 className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
                 onClick={() => setSelectedNote(null)}
               ></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 max-h-[500px]">
                 <div
                   className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl"
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
                   <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out">
-                    <p className="text-md text-neutral-200 mb-2">
+                    <p className="text-md text-neutral-200 mb-2 overflow-y-scoll">
                       {selectedNote.title}
                     </p>
-                    <div className="w-[500px] h-full relative">
+                    <div className="w-[500px] max-h-[500px] relative text-wrap break-words overflow-y-scroll">
                       <div className={`text-[14px] text-neutral-300 mb-3`}>
                         <div
                           dangerouslySetInnerHTML={{
