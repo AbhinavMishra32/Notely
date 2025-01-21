@@ -123,7 +123,7 @@ export const SidebarItem: React.FC<{
               </>
             )}
           </div>
-          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis">
+          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden">
             {text}
           </div>
         </div>
@@ -134,7 +134,7 @@ export const SidebarItem: React.FC<{
             className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"
               }`}
           >
-            <div className="hover:bg-neutral-700 p-[2px] rounded-md border border-transparent hover:border-neutral-600">
+            <div className="absolute right-4 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
               <MoreHorizontal size={16} color="gray" />
             </div>
           </DropdownMenuTrigger>

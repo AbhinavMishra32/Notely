@@ -1,5 +1,4 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { Sheet } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar, { SidebarGroup, SidebarItem } from "../components/Sidebar";
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 import AIPanel from "../components/AIPanel";
 import axios from "axios";
+import { Skeleton } from "../components/ui/skeleton";
 
 const HomePageLayout = () => {
   const { isSignedIn, signOut } = useAuth();
@@ -63,7 +63,13 @@ const HomePageLayout = () => {
               isNote={false}
             />
             <SidebarGroup title="Notes">
-              {!loading && (notes.map((note, index) => (
+              {loading ? (
+                <div className="flex-col">
+                  <Skeleton className="rounded-md h-[30px] mb-1" />
+                  <Skeleton className="rounded-md h-[30px] my-1" />
+                  <Skeleton className="rounded-md h-[30px] mt-1" />
+                </div>
+              ) : (notes.map((note, index) => (
                 <SidebarItem
                   key={index}
                   icon={<NotebookText color="grey" size={17} />}

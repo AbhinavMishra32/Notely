@@ -70,7 +70,7 @@ const EditorPage = () => {
 
   useEffect(() => {
     fetchNote(noteId);
-  }, []);
+  }, [noteId]);
 
   const editor = useEditor({
     extensions,

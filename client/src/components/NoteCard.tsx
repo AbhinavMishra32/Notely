@@ -16,13 +16,13 @@ const NoteCard: React.FC<NoteCardProps> = ({ data }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col bg-neutral-900 hover:bg-neutral-800 p-5 rounded-xl transition-colors duration-200 ease-in-out">
+      <div className="flex flex-col break-words bg-neutral-900 hover:bg-neutral-800 p-5 rounded-xl transition-colors duration-200 ease-in-out">
         <p className="text-md text-neutral-200 mb-2">{data.title}</p>
         <div className="max-h-[400px] overflow-hidden relative">
           <div
             className={`h-[${data.content.length}px] text-[14px] text-neutral-300 mb-3`}
           >
-            {data.content}
+            <div dangerouslySetInnerHTML={{ __html: data.content }} />
           </div>
           <div
             className={`${data.content.length > 20 &&
