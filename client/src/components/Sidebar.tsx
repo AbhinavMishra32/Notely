@@ -29,7 +29,7 @@ const Sidebar = ({ children }) => {
   const { user } = useUser();
   return (
     <div
-      className="fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-gradient-to-b from-neutral-900 to-neutral-950 border-r-2 z-50" // Added fixed position and explicit width
+      className="fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-gradient-to-b from-neutral-900 to-neutral-950 border-r-2 z-50"
     >
       <div className="flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 rounded-xl">
         <div className="pl-3 pr-1 flex items-center justify-center">
@@ -56,15 +56,16 @@ const Sidebar = ({ children }) => {
 
 export const SidebarGroup: React.FC<{
   title: string;
+  containsNotes: boolean;
   children: React.ReactNode;
-}> = ({ title, children }) => {
+}> = ({ title,containsNotes, children }) => {
   return (
     <>
-      <div className="flex flex-col gap-1">
+      <div className={`flex flex-col gap-1 ${containsNotes ? ("max-h-[70vh]") : ("")}`}>
         <div className="text-neutral-400 font-semibold text-[12px] px-2 pt-5">
           {title}
         </div>
-        <div>{children}</div>
+        <div className="overflow-y-scroll">{children}</div>
       </div>
     </>
   );
@@ -124,14 +125,14 @@ export const SidebarItem: React.FC<{
             {isNote ? (
               <>
                 <div
-                  className={`absolute transition-opacity duration-200 mr-2 ${
+                  className={`relative left-2 transition-opacity duration-200 mr-2 ${
                     isHovered ? "opacity-0" : "opacity-100"
                   }`}
                 >
                   {icon}
                 </div>
                 <div
-                  className={`absolute transition-opacity duration-200 ${
+                  className={`relative -left-[15px] transition-opacity duration-200 ${
                     isHovered ? "opacity-100" : "opacity-0"
                   }`}
                 >
