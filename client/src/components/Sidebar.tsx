@@ -79,9 +79,8 @@ export const SidebarItem: React.FC<{
   const [isActive, setIsActive] = useState(false);
   return (
     <div
-      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${
-        isActive ? "bg-neutral-800" : ""
-      } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
+      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${isActive ? "bg-neutral-800" : ""
+        } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -102,16 +101,14 @@ export const SidebarItem: React.FC<{
             {isNote ? (
               <>
                 <div
-                  className={`absolute transition-opacity duration-200 mr-2 ${
-                    isHovered ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`absolute transition-opacity duration-200 mr-2 ${isHovered ? "opacity-0" : "opacity-100"
+                    }`}
                 >
                   {icon}
                 </div>
                 <div
-                  className={`absolute transition-opacity duration-200 ${
-                    isHovered ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={`absolute transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
+                    }`}
                 >
                   <ChevronRightIcon size={16} color="gray" />
                 </div>
@@ -126,7 +123,7 @@ export const SidebarItem: React.FC<{
               </>
             )}
           </div>
-          <div className="font-inter text-neutral-400 text-[15px] antialiased">
+          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis">
             {text}
           </div>
         </div>
@@ -134,9 +131,8 @@ export const SidebarItem: React.FC<{
       {isNote && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${
-              isHovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="hover:bg-neutral-700 p-[2px] rounded-md border border-transparent hover:border-neutral-600">
               <MoreHorizontal size={16} color="gray" />
