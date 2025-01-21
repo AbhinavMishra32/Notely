@@ -74,6 +74,7 @@ const HomePageLayout = () => {
                   key={index}
                   icon={<NotebookText color="grey" size={17} />}
                   link={`/app/note/${note.id}`}
+                  id={note.id}
                   text={note.title}
                   isNote={true} />
               )))}

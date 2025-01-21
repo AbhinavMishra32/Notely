@@ -166,3 +166,23 @@ export const fetchAllNotes = async (req: any, res: Response, next: NextFunction)
         console.log("Error in fetchAllNotes: ", error);
     }
 }
+
+export const deleteNote = async (req: any, res: Response, next: NextFunction) => {
+    const { noteId } = req.params;
+    try {
+        const deletedNote = await prisma.note.delete({ where: { id: noteId } });
+
+        if (!deletedNote) {
+            return res.status(404).json({
+                success: false,
+                message: "Note not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+        });
+    } catch (error) {
+        console.log("Error while deleting note: ", error);
+    }
+}
