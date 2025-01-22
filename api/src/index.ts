@@ -8,6 +8,12 @@ import { Webhook } from 'svix';
 import userRouter from './routes/user.js';
 import notesRouter from './routes/notes.js';
 
+const CLIENT_URL = process.env.CLIENT_URL;
+if (!CLIENT_URL) {
+    console.error('CLIENT_URL is not set in environment variables');
+    process.exit(1);
+}
+
 export const app = express();
 const PORT = 3000;
 app.use(clerkMiddleware());
@@ -16,7 +22,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-    origin: 'http://localhost:5173', // for access from anywhere, use '*'
+    origin: CLIENT_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }))
@@ -36,17 +42,12 @@ app.listen(PORT, () => {
 //     res.send('Hello ' + req.params.name);
 // });
 
-app.get('/protected', requireAuth({ signInUrl: "/sign-in" }), async (req: Request, res: Response) => {
-    // console.log(req);
-    const { auth } = req as any;
-    const { userId } = auth;
-    if (!userId) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-    console.log(userId);
-    const user = await clerkClient.users.getUser(userId);
-    return res.json({ user });
-});
+app.get('/', async (req: Request, res: Response) => {
+    res.status(200).json({
+        success: true,
+        message: "DB NOTES API"
+    });
+})
 
 app.use('/api/user', userRouter);
 app.use('/api/note', legacyRequireAuth, notesRouter);
