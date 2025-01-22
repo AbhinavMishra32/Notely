@@ -1,11 +1,13 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar, { SidebarGroup, SidebarItem } from "../components/Sidebar";
 import {
+  ChevronRight,
   HelpCircle,
   HelpingHand,
   LucidePackageMinus,
+  MenuIcon,
   Notebook,
   NotebookPen,
   NotebookTabs,
@@ -19,6 +21,12 @@ import AIPanel from "../components/AIPanel";
 import axios from "axios";
 import { Skeleton } from "../components/ui/skeleton";
 import { api } from "../services/axios";
+import { Menu } from "@mui/joy";
+
+const sidebarOpenContext = createContext({
+  sidebarOpen: false,
+  setSidebarOpen: (value: boolean) => { }
+});
 
 const HomePageLayout = () => {
   const { isSignedIn, signOut } = useAuth();
@@ -27,6 +35,7 @@ const HomePageLayout = () => {
   const navigate = useNavigate();
   const [notes, setNotes] = useState<{ title: string, content: string, date: string, id: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -61,7 +70,7 @@ const HomePageLayout = () => {
   return (
     <>
       <div className="flex">
-        <div className="sticky z-20 left-0 top-0 h-screen w-60">
+        <div className={`fixed z-20 left-0 top-0 h-full w-60 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out`}>
           <Sidebar>
             <SidebarItem
               icon={<Search color="grey" size={17} />}
@@ -105,7 +114,13 @@ const HomePageLayout = () => {
             </SidebarGroup>
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-auto scrollbar-none bg-neutral-950">
+        <button className="fixed z-20 top-[24px] border-2 sm:hidden left-4 bg-neutral-800/20 backdrop-blur-md p-1 rounded-xl"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {/* <ChevronRight size={30} /> */}
+          <MenuIcon size={25} />
+        </button>
+        <div className={`flex-1 overflow-y-auto bg-neutral-950 transition-transform duration-300 ease-out ${sidebarOpen ? "translate-x-60" : ""}`}>
           <Outlet />
         </div>
       </div>

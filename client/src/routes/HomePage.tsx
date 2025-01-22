@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import { api } from "../services/axios";
+import React from "react";
 
 const breakpointColumnsObj = {
   default: 4, // For large screens
@@ -78,7 +79,7 @@ const HomePage = () => {
 
   return (
     <div className="relative w-full h-screen m-auto">
-      <div className="px-[90px] pb-10">
+      <div className="px-[20px] md:px-[40px] lg:px-[90px] pb-10">
         <Navbar />
         {notes.length === 0 ? (
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
