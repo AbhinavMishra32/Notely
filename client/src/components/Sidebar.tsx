@@ -25,6 +25,7 @@ import {
 import { Autocomplete } from "@mui/joy";
 import axios from "axios";
 import { api } from "../services/axios";
+import { useSidebar } from "../contexts/SidebarContext";
 
 const Sidebar = ({ children }) => {
   const { user } = useUser();
@@ -81,6 +82,7 @@ export const SidebarItem: React.FC<{
 }> = ({ icon, text, link, isNote, id, notes, fetchAllNotes }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const {sidebarOpen, setSidebarOpen} = useSidebar();
   const navigate = useNavigate();
 
   const deleteNote = async (noteId: string) => {
@@ -114,6 +116,7 @@ export const SidebarItem: React.FC<{
           return isActive ? "" : "";
         }}
         style={{ width: "100%", height: "100%" }}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         <div className="flex items-center">
           <div

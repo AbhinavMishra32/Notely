@@ -5,12 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../services/axios";
 import { useSidebar } from "../contexts/SidebarContext";
 
+export const SidebarOpenButton = () => {
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
+
+  return (
+    <button
+      className="border-2 sm:hidden w-19 left-4 bg-neutral-800/20 backdrop-blur-md p-1 rounded-xl"
+      onClick={() => setSidebarOpen(!sidebarOpen)}
+    >
+      {sidebarOpen ? <ChevronLeft size={25} /> : <ChevronRight size={25} />}
+    </button>
+  );
+}
+
 const Navbar = () => {
 
   const { getToken } = useAuth();
   const navigate = useNavigate();
 
-  const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   const saveNote = async () => {
     try {
@@ -35,11 +47,7 @@ const Navbar = () => {
   return (
     <div className="sticky z-30 top-0 pt-5 bg-gradient-to-b from-black to-transparent w-full flex justify-between items-start">
       <div className="flex gap-4 mb-6">
-        <button className="border-2 sm:hidden left-4 bg-neutral-800/20 backdrop-blur-md p-1 rounded-xl"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          {sidebarOpen ? <ChevronLeft size={25} /> : <ChevronRight size={25} />}
-        </button>
+        <SidebarOpenButton />
         <h1 className="font-light text-4xl">Notes</h1>
       </div>
       <button onClick={saveNote}>
