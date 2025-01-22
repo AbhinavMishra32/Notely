@@ -10,6 +10,9 @@ import EditorPageLayout from './layouts/EditorPageLayout'
 import SignUpPage from './routes/SignUpPage.tsx'
 import EditorPage from './routes/EditorPage.tsx'
 import HomePage from './routes/HomePage.tsx'
+import { SidebarProvider } from './contexts/SidebarContext.tsx';
+import React from 'react'
+import { Sidebar } from 'lucide-react'
 
 const router = createBrowserRouter([
   {
@@ -19,9 +22,16 @@ const router = createBrowserRouter([
       { path: '/sign-in/*', element: <SignInPage /> },
       { path: '/sign-up/*', element: <SignUpPage /> },
       {
-        path: '/app', element: <HomePageLayout />,
+        path: '/app', element:
+          <SidebarProvider>
+            <HomePageLayout />
+          </SidebarProvider>
+        ,
         children: [
-          { path: 'home', element: <HomePage /> },
+          {
+            path: 'home', element:
+              <HomePage />
+          },
           {
             path: 'note/*', element: <EditorPageLayout />,
             children: [
