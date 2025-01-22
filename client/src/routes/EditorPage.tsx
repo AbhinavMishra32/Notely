@@ -7,6 +7,8 @@ import "../editorStyles.css";
 import {
   AlignHorizontalDistributeEnd,
   Bold,
+  ChevronLeft,
+  ChevronRight,
   CloudUpload,
   Code,
   Code2,
@@ -27,6 +29,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { api } from "../services/axios";
 import React from "react";
 import { SidebarOpenButton } from "../components/Navbar";
+import { useSidebar } from "../contexts/SidebarContext";
 
 const EditorPage = () => {
   const [size, setSize] = useState("");
@@ -36,6 +39,7 @@ const EditorPage = () => {
   const { noteId } = useParams();
   const [saving, setSaving] = useState(false);
   const [fetchingNote, setFetchingNote] = useState(true);
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   const { getToken } = useAuth();
 
@@ -128,12 +132,35 @@ const EditorPage = () => {
       <div className="rounded-xl mt-4 w-full">
         {allowedAccess && (
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
+            <div className="relative flex items-center gap-2 sm:mb-0 mb-4">
               <div className="ml-3">
-                <SidebarOpenButton />
+                {/* <SidebarOpenButton /> */}
+                <button
+                  className="absolute top-0 left-5 sm:hidden flex items-center justify-center p-1 rounded-full bg-neutral-800 hover:bg-neutral-700 transition-all duration-300"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                >
+                  {sidebarOpen ? (
+                    <ChevronLeft className="h-6 w-6" />
+                  ) : (
+                    <ChevronRight className="h-6 w-6" />
+                  )}
+                </button>
+                <button
+                  className="absolute top-0 left-[57px] flex sm:ml-5 ml-0 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
+                  onClick={saveNote}
+                  disabled={saving}
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                      <p className="text-xs mr-1">Saving...</p>
+                    </>
+                  ) : (
+                    <CloudUpload className="h-4 w-4" />
+                  )}
+                </button>
               </div>
-              {/* undo div */}
-                <div className="flex items-center justify-center gap-1 h-8 transition-all duration-300">
+              <div className="flex w-full items-center sm:justify-start justify-center gap-1 h-8 transition-all duration-300">
                 <button
                   onClick={() => editor.chain().focus().undo().run()}
                   disabled={!editor.can().chain().focus().undo().run()}
@@ -145,30 +172,17 @@ const EditorPage = () => {
                   onClick={() => editor.chain().focus().redo().run()}
                   disabled={!editor.can().chain().focus().redo().run()}
                   className={`px-2 py-2 rounded-full transition-all duration-300 ${
-                  editor.can().chain().focus().redo().run()
-                    ? "bg-neutral-800 hover:bg-neutral-700"
-                    : "opacity-30"
+                    editor.can().chain().focus().redo().run()
+                      ? "bg-neutral-800 hover:bg-neutral-700"
+                      : "opacity-30"
                   }`}
                 >
                   <Redo className="h-4 w-4" />
                 </button>
-                <button
-                  className="flex ml-5 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
-                  onClick={saveNote}
-                  disabled={saving}
-                >
-                  {saving ? (
-                  <>
-                    <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                    <p className="text-xs mr-1">Saving...</p>
-                  </>
-                  ) : (
-                  <CloudUpload className="h-4 w-4" />
-                  )}
-                </button>
-                </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-1">
+
+              </div>
+              </div>
+                        <div className="flex flex-wrap items-center justify-center gap-1">
               {/* <div className="flex flex-wrap justify-center items-center bg-neutral-900 w-full"> */}
               <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
