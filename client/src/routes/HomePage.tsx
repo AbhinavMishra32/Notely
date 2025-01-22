@@ -3,9 +3,9 @@ import NoteCard from "../components/NoteCard";
 import Masonry from "react-masonry-css";
 import AIBar from "../components/AIBar";
 import { AnimatePresence, motion } from "framer-motion";
-import { Edit,FilePlus2, Plus, X } from "lucide-react";
+import { Edit, FilePlus2, Plus, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -79,53 +79,53 @@ const HomePage = () => {
     <div className="relative w-full h-screen m-auto">
       <div className="px-[90px] pb-10">
         <Navbar />
-      {notes.length === 0 ? (
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2xl border">
-            <div className="flex items-center justify-center h-full">
-              <div className="flex flex-col gap-5 items-center justify-center">
-              <div className="w-[120px] h-[120px] bg-neutral-800 rounded-2xl border flex items-center justify-center">
-                <FilePlus2 size={50} color="grey" />
-              </div>
-              <p className="text-neutral-400 flex items-center justify-center">
-                Add a note by pressing
-                <div className="inline-flex justify-center items-center w-[30px] h-[30px] gap-2 bg-neutral-900 border-2 rounded-full backdrop-blur-sm ml-1">
-                <Plus size={14} />
+        {notes.length === 0 ? (
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2xl border">
+              <div className="flex items-center justify-center h-full">
+                <div className="flex flex-col gap-5 items-center justify-center">
+                  <div className="w-[120px] h-[120px] bg-neutral-800 rounded-2xl border flex items-center justify-center">
+                    <FilePlus2 size={50} color="grey" />
+                  </div>
+                  <p className="text-neutral-400 flex items-center justify-center">
+                    Add a note by pressing
+                    <div className="inline-flex justify-center items-center w-[30px] h-[30px] gap-2 bg-neutral-900 border-2 rounded-full backdrop-blur-sm ml-1">
+                      <Plus size={14} />
+                    </div>
+                  </p>
                 </div>
-              </p>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="flex -ml-6 w-auto"
-          columnClassName="pl-6 bg-clip-padding"
-        >
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            notes.map((note, index) => (
-              <div
-                key={note.id}
-                className="cursor-pointer mb-6"
-                onClick={() => {
-                  setSelectedNote(note);
-                }}
-              >
-                <NoteCard
-                  data={{
-                    title: note.title,
-                    content: note.content,
-                    date: new Date(note.createdAt).toDateString(),
+        ) : (
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="flex -ml-6 w-auto"
+            columnClassName="pl-6 bg-clip-padding"
+          >
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              notes.map((note, index) => (
+                <div
+                  key={note.id}
+                  className="cursor-pointer mb-6"
+                  onClick={() => {
+                    setSelectedNote(note);
                   }}
-                />
-              </div>
-            ))
-          )}
-        </Masonry>
-      )}
+                >
+                  <NoteCard
+                    data={{
+                      title: note.title,
+                      content: note.content,
+                      date: new Date(note.createdAt).toDateString(),
+                    }}
+                  />
+                </div>
+              ))
+            )}
+          </Masonry>
+        )}
       </div>
 
 
@@ -188,9 +188,8 @@ const HomePage = () => {
                     >
                       <X
                         size={22}
-                        color={`${
-                          isHoveredIcon === "close" ? "white" : "gray"
-                        }`}
+                        color={`${isHoveredIcon === "close" ? "white" : "gray"
+                          }`}
                       />
                     </button>
                   </div>

@@ -1,7 +1,8 @@
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { Plus } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -17,7 +18,7 @@ const Navbar = () => {
         }
       });
       console.log(response.data);
-      const noteId = response.data.noteId; // Ensure the correct property name
+      const noteId = response.data.noteId;
       if (noteId) {
         navigate(`/app/note/${noteId}`);
       } else {
