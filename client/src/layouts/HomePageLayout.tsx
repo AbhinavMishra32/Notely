@@ -5,9 +5,15 @@ import Sidebar, { SidebarGroup, SidebarItem } from "../components/Sidebar";
 import {
   HelpCircle,
   HelpingHand,
+  LucidePackageMinus,
+  Notebook,
+  NotebookPen,
+  NotebookTabs,
   NotebookText,
+  NotepadText,
   Search,
   Settings2,
+  StickyNote,
 } from "lucide-react";
 import AIPanel from "../components/AIPanel";
 import axios from "axios";
@@ -62,7 +68,7 @@ const HomePageLayout = () => {
               text="Search"
               isNote={false}
             />
-            <SidebarGroup title="Notes">
+            <SidebarGroup title="Notes" containsNotes={true}>
               {loading ? (
                 <div className="flex-col">
                   <Skeleton className="rounded-md h-[30px] mb-1" />
@@ -72,33 +78,16 @@ const HomePageLayout = () => {
               ) : (notes.map((note, index) => (
                 <SidebarItem
                   key={index}
-                  icon={<NotebookText color="grey" size={17} />}
+                  icon={<NotebookPen color="grey" size={16} />}
                   link={`/app/note/${note.id}`}
                   id={note.id}
                   text={note.title}
-                  isNote={true} />
+                  isNote={true}
+                  notes={notes}
+                  fetchAllNotes={fetchAllNotes}
+                   />
               )))}
             </SidebarGroup>
-            {/* <SidebarItem
-                icon={<NotebookText color="grey" size={17} />}
-                link="/app/note/note-title-1-2qg3jl23gasdf"
-                text="note title 1"
-                isNote={true}
-              />
-              <SidebarItem
-                icon={<NotebookText color="grey" size={17} />}
-                link="/app/note/helo-asem3wlk2fj2f23"
-                text="helo"
-                isNote={true}
-              />
-              <SidebarItem
-                icon={<NotebookText color="grey" size={17} />}
-                link="/app/note/nice-note-asdfavbwmklvm32lk23k5"
-                text="nice note"
-                isNote={true}
-              />
-            </SidebarGroup> */}
-
             <SidebarGroup title="Settings">
               <SidebarItem
                 icon={<Settings2 color="gray" size={17} />}

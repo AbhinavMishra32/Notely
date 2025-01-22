@@ -11,7 +11,7 @@ const SignInPage = () => {
 
     useEffect(() => {
         if (isSignedIn) {
-            navigate('/home');
+            navigate('/app/home');
         }
     })
     return (

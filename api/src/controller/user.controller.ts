@@ -79,6 +79,21 @@ const signUp = async (eventData: any) => {
                 email: email_address ?? "",
             }
         });
+
+        const note = await prisma.note.createMany({
+            data: [
+                {
+                    title: "Add a note by clicking the plus button!",
+                    content: "Click this note and click on the edit icon to edit this note.",
+                    userId: user.id
+                },
+                {
+                    title: "Welcome to DBNotes!",
+                    content: "This is a simple note-taking app. You can add, edit, and delete notes.",
+                    userId: user.id
+                }
+            ]
+        })
         console.log(`User created ID: ${id}, username: ${username}`);
     } catch (error) {
         console.error('Error occurred while creating user: ', error);

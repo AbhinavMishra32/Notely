@@ -12,7 +12,7 @@ import {
   X,
 } from "lucide-react";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuSeparator,
@@ -29,7 +29,7 @@ const Sidebar = ({ children }) => {
   const { user } = useUser();
   return (
     <div
-      className="fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-gradient-to-b from-neutral-900 to-neutral-950 border-r-2 z-50" // Added fixed position and explicit width
+      className="fixed top-0 left-0 h-screen w-60 py-4 px-2 bg-gradient-to-b from-neutral-900 to-neutral-950 border-r-2 z-50"
     >
       <div className="flex gap-2 pl-1 pr-2 py-2 mb-3 bg-neutral-800 rounded-xl">
         <div className="pl-3 pr-1 flex items-center justify-center">
@@ -45,7 +45,7 @@ const Sidebar = ({ children }) => {
           <p className="text-white text-sm">{user?.fullName}</p>
         </div>
       </div>
-      <div className="overflow-y-auto">
+      <div className="">
         {" "}
         {/* Ensure that the content scrolls if needed */}
         {children}
@@ -56,17 +56,16 @@ const Sidebar = ({ children }) => {
 
 export const SidebarGroup: React.FC<{
   title: string;
+  containsNotes: boolean;
   children: React.ReactNode;
-}> = ({ title, children }) => {
+}> = ({ title, containsNotes, children }) => {
   return (
-    <>
-      <div className="flex flex-col gap-1">
-        <div className="text-neutral-400 font-semibold text-[12px] px-2 pt-5">
-          {title}
-        </div>
-        <div>{children}</div>
+    <div className="flex flex-col gap-1 max-h-[70vh] max-w-full">
+      <div className="text-neutral-400 font-semibold text-[12px] px-2 pt-5">
+        {title}
       </div>
-    </>
+      <div className="overflow-y-auto sidebar-group">{children}</div>
+    </div>
   );
 };
 
@@ -75,26 +74,35 @@ export const SidebarItem: React.FC<{
   text: string;
   link: string;
   isNote: boolean;
-  id: string,
-}> = ({ icon, text, link, isNote, id }) => {
+  id: string;
+  notes: { title: string; content: string; date: string; id: string }[];
+  fetchAllNotes: () => void;
+}> = ({ icon, text, link, isNote, id, notes, fetchAllNotes }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const deleteNote = async (noteId: string) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/api/note/${noteId}`);
+      const response = await axios.delete(
+        `http://localhost:3000/api/note/${noteId}`
+      );
       console.log("response from deleteNote: ", response);
       setIsActive(false);
       setIsHovered(false);
+      // notes = notes.filter((note) => note.id !== noteId);
+      fetchAllNotes();
+      navigate("/app/home");
     } catch (error) {
       console.log("Error while deleting note: ", error);
     }
-  }
+  };
 
   return (
     <div
-      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${isActive ? "bg-neutral-800" : ""
-        } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
+      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${
+        isActive ? "bg-neutral-800" : ""
+      } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -106,57 +114,65 @@ export const SidebarItem: React.FC<{
           return isActive ? "" : "";
         }}
         style={{ width: "100%", height: "100%" }}
-      >
+            >
         <div className="flex items-center">
-          <div
-            className="flex items-center justify-center mr-1 overflow-hidden"
-            style={{ width: "24px", height: "24px" }}
-          >
-            {isNote ? (
-              <>
-                <div
-                  className={`absolute transition-opacity duration-200 mr-2 ${isHovered ? "opacity-0" : "opacity-100"
-                    }`}
-                >
-                  {icon}
-                </div>
-                <div
-                  className={`absolute transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
-                    }`}
-                >
-                  <ChevronRightIcon size={16} color="gray" />
-                </div>
-              </>
-            ) : (
-              <>
-                <div
-                  className={`absolute transition-opacity duration-200 mr-2`}
-                >
-                  {icon}
-                </div>
-              </>
-            )}
-          </div>
-          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden">
-            {text}
-          </div>
+            <div
+              className="flex items-center justify-center mr-1 overflow-hidden flex-shrink-0"
+              style={{ width: "24px", height: "24px" }}
+            >
+              {isNote ? (
+          <>
+            <div
+              className={`relative left-2 transition-opacity duration-200 mr-2 ${
+                isHovered ? "opacity-0" : "opacity-100"
+              }`}
+            >
+              {icon}
+            </div>
+            <div
+              className={`relative -left-[15px] transition-opacity duration-200 ${
+                isHovered ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <ChevronRightIcon size={16} color="gray" />
+            </div>
+          </>
+              ) : (
+          <>
+            <div
+              className={`absolute transition-opacity duration-200 mr-2`}
+            >
+              {icon}
+            </div>
+          </>
+              )}
+            </div>
+            <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden flex-grow">
+              {text}
+            </div>
         </div>
-      </NavLink>
-      {isNote && (
+            </NavLink>
+            {isNote && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={`flex items-center justify-center pr-1 transition-opacity duration-200 overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"
-              }`}
+            className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            }`}
           >
-            <div className="absolute right-4 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
+            <div className="relative">
+            <div className="absolute -right-1 bottom-1/2 translate-y-1/2 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
               <MoreHorizontal size={16} color="gray" />
+            </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="absolute z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60"
+            className="relative left-20 z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60"
             style={{ boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.6)" }}
           >
-            <button className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out" onClick={() => deleteNote(id)}>
+            <button
+              className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out"
+              onClick={() => deleteNote(id)}
+            >
               <div className="flex items-center">
                 <div
                   className="flex items-center justify-center mr-1 overflow-hidden"

@@ -59,7 +59,7 @@ export const updateNote = async (req: any, res: Response, next: NextFunction) =>
             });
         }
 
-        console.log('clerkId: ', userId);
+        // console.log('clerkId: ', userId);
         const user = await prisma.user.findUnique({
             where: { clerkId: userId }
         });
@@ -116,7 +116,7 @@ export const fetchNote = async (req: any, res: Response, next: NextFunction) => 
         const user = await prisma.user.findUnique({
             where: { clerkId: userId }
         })
-        console.log("note: ", note);
+        // console.log("note: ", note);
 
         if (!note) {
             return res.status(404).json({
@@ -157,7 +157,7 @@ export const fetchAllNotes = async (req: any, res: Response, next: NextFunction)
             });
         }
 
-        const notes = await prisma.note.findMany({ where: { userId: user.id } });
+        const notes = await prisma.note.findMany({ where: { userId: user.id }, orderBy: { modifiedAt: 'desc' } });
         res.status(200).json({
             success: true,
             notes
