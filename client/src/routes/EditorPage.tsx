@@ -132,7 +132,7 @@ const EditorPage = () => {
       <div className="rounded-xl mt-4 w-full">
         {allowedAccess && (
           <div className="flex flex-col gap-1">
-            <div className="relative flex items-center gap-2 sm:mb-0 mb-4">
+            <div className="relative flex items-center gap-2 sm:mb-0 mb-2">
               <div className="ml-3">
                 {/* <SidebarOpenButton /> */}
                 <button
@@ -146,7 +146,7 @@ const EditorPage = () => {
                   )}
                 </button>
                 <button
-                  className="absolute top-0 left-[57px] flex sm:ml-5 ml-0 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
+                  className="absolute top-0 left-[57px] sm:left-[90px] flex sm:ml-5 ml-0 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
                   onClick={saveNote}
                   disabled={saving}
                 >
@@ -224,7 +224,7 @@ const EditorPage = () => {
               >
                 <Code className="h-4 w-4" />
               </button>
-              <button
+              {/* <button
                 onClick={() => editor.chain().focus().setParagraph().run()}
                 className={`px-2 py-2 rounded ${
                   editor.isActive("paragraph")
@@ -233,20 +233,27 @@ const EditorPage = () => {
                 }`}
               >
                 P
-              </button>
-              {/* {
-                        Array.from({ length: 6 }, (_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => editor.chain().focus().toggleHeading({ level: i + 1 }).run()}
-                                className={`text-[] px-1 py-1 rounded ${editor.isActive('heading', { level: i + 1 }) ? 'bg-neutral-700' : 'bg-neutral-800'}`}
-                            >
-                                <div className='flex items-center justify-center'>
-                                    H{i + 1}
-                                </div>
-                            </button>
-                        ))
-                    } */}
+              </button> */}
+                <select
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "paragraph") {
+                  editor.chain().focus().setParagraph().run();
+                  } else {
+                  editor.chain().focus().toggleHeading({ level: parseInt(value) }).run();
+                  }
+                }}
+                className="px-2 py-1 rounded bg-neutral-800 text-white"
+                value={editor.isActive('heading') ? editor.getAttributes('heading').level : editor.isActive('paragraph') ? 'paragraph' : ''}
+                >
+                <option value="" disabled>{editor.isActive('heading') ? editor.getAttributes('heading').level : 'P'}</option>
+                <option value="paragraph">P</option>
+                {Array.from({ length: 6 }, (_, i) => (
+                  <option key={i} value={i + 1}>
+                  {i + 1}
+                  </option>
+                ))}
+                </select>
               <button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={`px-2 py-2 rounded ${
