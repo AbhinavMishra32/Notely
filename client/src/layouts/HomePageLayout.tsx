@@ -162,7 +162,13 @@ const HomePageLayout = () => {
           )
         }
         <div className={`flex-1 overflow-y-auto bg-neutral-950 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
-          <div className={`fixed inset-0 z-10 ${sidebarOpen && window.innerWidth <= 640 ? "opacity-50" : "opacity-0"} duration-700 bg-black transition-opacity`}></div>
+          <div
+            className={`fixed inset-0 z-10 ${sidebarOpen && window.innerWidth <= 640 ? "opacity-50 pointer-events-auto" : "opacity-0 pointer-events-none"} duration-700 bg-black transition-opacity`}
+            onClick={() => {
+              setSidebarOpen(!sidebarOpen);
+            }}
+            style={sidebarOpen && window.innerWidth <= 640 ? { touchAction: "none" } : {}}
+          ></div>
           <Outlet />
         </div>
       </div>
