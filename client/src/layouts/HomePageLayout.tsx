@@ -28,6 +28,19 @@ const HomePageLayout = () => {
     }
   }, [isLoaded, isSignedIn]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 640) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+    handleResize(); // Call initially to set the correct state
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setSidebarOpen]);
+
   // if (!isLoaded) {
   //   return <div>Loading...</div>;
   // }
@@ -54,53 +67,102 @@ const HomePageLayout = () => {
 
   return (
     <>
-      <div className="flex">
-        <div className={`fixed z-20 left-0 top-0 h-full w-60 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out`}>
-          <Sidebar>
-            <SidebarItem
-              icon={<Search color="grey" size={17} />}
-              link="/"
-              text="Search"
-              isNote={false}
-            />
-            <SidebarGroup title="Notes" containsNotes={true}>
-              {loading ? (
-                <div className="flex-col">
-                  <Skeleton className="rounded-md h-[30px] mb-1" />
-                  <Skeleton className="rounded-md h-[30px] my-1" />
-                  <Skeleton className="rounded-md h-[30px] mt-1" />
-                </div>
-              ) : (notes.map((note, index) => (
+      <div className="flex overflow-x-hidden">
+        {
+          window.innerWidth <= 640 ? (
+            <div className={`fixed z-20 left-0 top-0 h-full w-60 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out`}>
+              <Sidebar>
                 <SidebarItem
-                  key={index}
-                  icon={<NotebookPen color="grey" size={16} />}
-                  link={`/app/note/${note.id}`}
-                  id={note.id}
-                  text={note.title}
-                  isNote={true}
-                  notes={notes}
-                  fetchAllNotes={fetchAllNotes}
+                  icon={<Search color="grey" size={17} />}
+                  link="/"
+                  text="Search"
+                  isNote={false}
                 />
-              )))}
-            </SidebarGroup>
-            <SidebarGroup title="Settings">
-              <SidebarItem
-                icon={<Settings2 color="gray" size={17} />}
-                link="/settings"
-                text="Settings"
-                isNote={false}
-              />
-              <SidebarItem
-                icon={<HelpCircle color="gray" size={17} />}
-                link="/help"
-                text="Help"
-                isNote={false}
-              />
-            </SidebarGroup>
-          </Sidebar>
-        </div>
-
-        <div className={`flex-1 overflow-y-auto bg-neutral-950 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""}`}>
+                <SidebarGroup title="Notes" containsNotes={true}>
+                  {loading ? (
+                    <div className="flex-col">
+                      <Skeleton className="rounded-md h-[30px] mb-1" />
+                      <Skeleton className="rounded-md h-[30px] my-1" />
+                      <Skeleton className="rounded-md h-[30px] mt-1" />
+                    </div>
+                  ) : (notes.map((note, index) => (
+                    <SidebarItem
+                      key={index}
+                      icon={<NotebookPen color="grey" size={16} />}
+                      link={`/app/note/${note.id}`}
+                      id={note.id}
+                      text={note.title}
+                      isNote={true}
+                      notes={notes}
+                      fetchAllNotes={fetchAllNotes}
+                    />
+                  )))}
+                </SidebarGroup>
+                <SidebarGroup title="Settings">
+                  <SidebarItem
+                    icon={<Settings2 color="gray" size={17} />}
+                    link="/settings"
+                    text="Settings"
+                    isNote={false}
+                  />
+                  <SidebarItem
+                    icon={<HelpCircle color="gray" size={17} />}
+                    link="/help"
+                    text="Help"
+                    isNote={false}
+                  />
+                </SidebarGroup>
+              </Sidebar>
+            </div>
+          ) : (
+            <div className="sticky z-20 left-0 top-0 h-screen w-60">
+              <Sidebar>
+                <SidebarItem
+                  icon={<Search color="grey" size={17} />}
+                  link="/"
+                  text="Search"
+                  isNote={false}
+                />
+                <SidebarGroup title="Notes" containsNotes={true}>
+                  {loading ? (
+                    <div className="flex-col">
+                      <Skeleton className="rounded-md h-[30px] mb-1" />
+                      <Skeleton className="rounded-md h-[30px] my-1" />
+                      <Skeleton className="rounded-md h-[30px] mt-1" />
+                    </div>
+                  ) : (notes.map((note, index) => (
+                    <SidebarItem
+                      key={index}
+                      icon={<NotebookPen color="grey" size={16} />}
+                      link={`/app/note/${note.id}`}
+                      id={note.id}
+                      text={note.title}
+                      isNote={true}
+                      notes={notes}
+                      fetchAllNotes={fetchAllNotes}
+                    />
+                  )))}
+                </SidebarGroup>
+                <SidebarGroup title="Settings">
+                  <SidebarItem
+                    icon={<Settings2 color="gray" size={17} />}
+                    link="/settings"
+                    text="Settings"
+                    isNote={false}
+                  />
+                  <SidebarItem
+                    icon={<HelpCircle color="gray" size={17} />}
+                    link="/help"
+                    text="Help"
+                    isNote={false}
+                  />
+                </SidebarGroup>
+              </Sidebar>
+            </div>
+          )
+        }
+        <div className={`flex-1 overflow-y-auto bg-neutral-950 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
+          <div className={`fixed inset-0 z-10 ${sidebarOpen && window.innerWidth <= 640 ? "opacity-50" : "opacity-0"} duration-700 bg-black transition-opacity`}></div>
           <Outlet />
         </div>
       </div>

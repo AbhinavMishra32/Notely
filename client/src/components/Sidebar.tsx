@@ -153,11 +153,11 @@ export const SidebarItem: React.FC<{
       {isNote && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
+            className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${window.innerWidth < 640 ? "opacity-100" : isHovered ? "opacity-100" : "opacity-0"
               }`}
           >
             <div className="relative">
-              <div className="absolute -right-1 bottom-1/2 translate-y-1/2 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
+              <div className={`absolute -right-1 bottom-1/2 translate-y-1/2 ${window.innerWidth <= 640 ? "" : "hover:bg-neutral-700 bg-neutral-800 hover:border-neutral-600"} p-[2px] rounded-md border border-transparent shadow-2xl`}>
                 <MoreHorizontal size={16} color="gray" />
               </div>
             </div>
