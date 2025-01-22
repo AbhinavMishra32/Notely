@@ -1,8 +1,8 @@
 import { useAuth } from "@clerk/clerk-react";
-import axios from "axios";
 import { Plus } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import {api} from "../services/axios";
 
 const Navbar = () => {
 
@@ -12,7 +12,7 @@ const Navbar = () => {
   const saveNote = async () => {
     try {
       const token = await getToken();
-      const response = await axios.post("http://localhost:3000/api/note", {}, {
+      const response = await api.post("/api/note", {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }

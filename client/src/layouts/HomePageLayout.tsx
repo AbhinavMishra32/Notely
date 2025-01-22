@@ -18,6 +18,7 @@ import {
 import AIPanel from "../components/AIPanel";
 import axios from "axios";
 import { Skeleton } from "../components/ui/skeleton";
+import { api } from "../services/axios";
 
 const HomePageLayout = () => {
   const { isSignedIn, signOut } = useAuth();
@@ -39,7 +40,7 @@ const HomePageLayout = () => {
 
   const fetchAllNotes = async () => {
     try {
-      const notesData = await axios.get('http://localhost:3000/api/note', {
+      const notesData = await api.get('/api/note', {
         headers: {
           Authorization: `Bearer ${await getToken()}`
         }
@@ -85,7 +86,7 @@ const HomePageLayout = () => {
                   isNote={true}
                   notes={notes}
                   fetchAllNotes={fetchAllNotes}
-                   />
+                />
               )))}
             </SidebarGroup>
             <SidebarGroup title="Settings">

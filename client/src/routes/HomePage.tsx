@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+import { api } from "../services/axios";
 
 const breakpointColumnsObj = {
   default: 4, // For large screens
@@ -38,7 +39,7 @@ const HomePage = () => {
 
   const fetchAllNotes = async () => {
     try {
-      const notesData = await axios.get("http://localhost:3000/api/note", {
+      const notesData = await api.get("/api/note", {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
         },
