@@ -8,7 +8,7 @@ import { Webhook } from 'svix';
 import userRouter from './routes/user.js';
 import notesRouter from './routes/notes.js';
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 app.use(clerkMiddleware());
 app.use(express.json());
