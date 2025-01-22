@@ -20,6 +20,7 @@ const HomePageLayout = () => {
   const navigate = useNavigate();
   const [notes, setNotes] = useState<{ title: string, content: string, date: string, id: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { sidebarOpen, setSidebarOpen } = useSidebar();
 
   useEffect(() => {
@@ -40,6 +41,26 @@ const HomePageLayout = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [setSidebarOpen]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Update scroll position if sidebar is opening
+    if (sidebarOpen && window.innerWidth <= 640) {
+      setScrollPosition(window.scrollY);  // Update position when sidebar opens
+    }
+    console.log(scrollPosition);
+
+    // Clean up scroll listener on unmount or when sidebar closes
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [sidebarOpen]);
 
   // if (!isLoaded) {
   //   return <div>Loading...</div>;
@@ -161,14 +182,15 @@ const HomePageLayout = () => {
             </div>
           )
         }
-        <div className={`flex-1 overflow-y-auto bg-neutral-950 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
-          <div
-            className={`fixed inset-0 z-10 ${sidebarOpen && window.innerWidth <= 640 ? "opacity-50 pointer-events-auto" : "opacity-0 pointer-events-none"} duration-700 bg-black transition-opacity`}
-            onClick={() => {
-              setSidebarOpen(!sidebarOpen);
-            }}
-            style={sidebarOpen && window.innerWidth <= 640 ? { touchAction: "none" } : {}}
+        <div
+          className={`fixed inset-0 z-10 ${sidebarOpen && window.innerWidth <= 640 ? "bg-opacity-50 pointer-events-auto backdrop-blur-[2px]" : "bg-opacity-0 pointer-events-none backdrop-blur-0"} duration-700 bg-black transition-all`}
+          style={sidebarOpen && window.innerWidth <= 640 ? { touchAction: "none" } : {}}
+        >
+          <div className="absolute left-60 h-full w-full"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
           ></div>
+        </div>
+        <div className={`relative flex-1 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
           <Outlet />
         </div>
       </div>

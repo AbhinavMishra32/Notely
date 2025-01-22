@@ -33,7 +33,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="sticky z-10 top-0 pt-5 bg-gradient-to-b from-black to-transparent w-full flex justify-between items-start">
+    <div className="sticky z-30 top-0 pt-5 bg-gradient-to-b from-black to-transparent w-full flex justify-between items-start">
       <div className="flex gap-4 mb-6">
         <button className="border-2 sm:hidden left-4 bg-neutral-800/20 backdrop-blur-md p-1 rounded-xl"
           onClick={() => setSidebarOpen(!sidebarOpen)}
