@@ -20,7 +20,7 @@ const EditorPageLayout = () => {
     return (
         <div className='flex'>
             <Outlet />
-            <AIPanel />
+            {/* <AIPanel /> */}
         </div>
     )
 }

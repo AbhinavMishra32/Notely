@@ -24,6 +24,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { api } from "../services/axios";
+import React from "react";
 
 const EditorPage = () => {
   const [size, setSize] = useState("");
@@ -120,10 +121,9 @@ const EditorPage = () => {
       console.log(err);
     }
   };
-
   return (
-    <div className="relative flex flex-col gap-2 ml-[14px] w-full h-screen">
-      <div className="rounded-xl mt-4">
+    <div className="relative flex flex-col items-center gap-2 w-full h-screen">
+      <div className="rounded-xl mt-4 w-full">
         {allowedAccess && (
           <div className="flex flex-wrap items-center justify-center gap-1 p-3">
             <button
@@ -250,7 +250,7 @@ const EditorPage = () => {
         )}
       </div>
       <div
-        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
+        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-w-[60vw] min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
         onKeyDown={() => {
           handleKeyPress();
         }}
