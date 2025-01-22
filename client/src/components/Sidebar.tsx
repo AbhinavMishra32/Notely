@@ -24,6 +24,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Autocomplete } from "@mui/joy";
 import axios from "axios";
+import { api } from "../services/axios";
 
 const Sidebar = ({ children }) => {
   const { user } = useUser();
@@ -84,8 +85,8 @@ export const SidebarItem: React.FC<{
 
   const deleteNote = async (noteId: string) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/note/${noteId}`
+      const response = await api.delete(
+        `/api/note/${noteId}`
       );
       console.log("response from deleteNote: ", response);
       setIsActive(false);
@@ -100,9 +101,8 @@ export const SidebarItem: React.FC<{
 
   return (
     <div
-      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${
-        isActive ? "bg-neutral-800" : ""
-      } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
+      className={`flex justify-between mb-[1px] hover:bg-neutral-800 ${isActive ? "bg-neutral-800" : ""
+        } rounded-md py-1 px-2 transition-all duration-200 ease-in-out`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -114,55 +114,52 @@ export const SidebarItem: React.FC<{
           return isActive ? "" : "";
         }}
         style={{ width: "100%", height: "100%" }}
-            >
+      >
         <div className="flex items-center">
-            <div
-              className="flex items-center justify-center mr-1 overflow-hidden flex-shrink-0"
-              style={{ width: "24px", height: "24px" }}
-            >
-              {isNote ? (
-          <>
-            <div
-              className={`relative left-2 transition-opacity duration-200 mr-2 ${
-                isHovered ? "opacity-0" : "opacity-100"
-              }`}
-            >
-              {icon}
-            </div>
-            <div
-              className={`relative -left-[15px] transition-opacity duration-200 ${
-                isHovered ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <ChevronRightIcon size={16} color="gray" />
-            </div>
-          </>
-              ) : (
-          <>
-            <div
-              className={`absolute transition-opacity duration-200 mr-2`}
-            >
-              {icon}
-            </div>
-          </>
-              )}
-            </div>
-            <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden flex-grow">
-              {text}
-            </div>
+          <div
+            className="flex items-center justify-center mr-1 overflow-hidden flex-shrink-0"
+            style={{ width: "24px", height: "24px" }}
+          >
+            {isNote ? (
+              <>
+                <div
+                  className={`relative left-2 transition-opacity duration-200 mr-2 ${isHovered ? "opacity-0" : "opacity-100"
+                    }`}
+                >
+                  {icon}
+                </div>
+                <div
+                  className={`relative -left-[15px] transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                  <ChevronRightIcon size={16} color="gray" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  className={`absolute transition-opacity duration-200 mr-2`}
+                >
+                  {icon}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="font-inter text-neutral-400 text-[15px] antialiased overflow-ellipsis whitespace-nowrap overflow-hidden flex-grow">
+            {text}
+          </div>
         </div>
-            </NavLink>
-            {isNote && (
+      </NavLink>
+      {isNote && (
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${
-              isHovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${window.innerWidth < 640 ? "opacity-100" : isHovered ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="relative">
-            <div className="absolute -right-1 bottom-1/2 translate-y-1/2 hover:bg-neutral-700 bg-neutral-800 p-[2px] rounded-md border border-transparent hover:border-neutral-600 shadow-2xl">
-              <MoreHorizontal size={16} color="gray" />
-            </div>
+              <div className={`absolute -right-1 bottom-1/2 translate-y-1/2 ${window.innerWidth <= 640 ? "" : "hover:bg-neutral-700 bg-neutral-800 hover:border-neutral-600"} p-[2px] rounded-md border border-transparent shadow-2xl`}>
+                <MoreHorizontal size={16} color="gray" />
+              </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent

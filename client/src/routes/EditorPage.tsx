@@ -23,6 +23,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
+import { api } from "../services/axios";
+import React from "react";
 
 const EditorPage = () => {
   const [size, setSize] = useState("");
@@ -45,7 +47,7 @@ const EditorPage = () => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:3000/api/note/${noteId}`, {
+      const response = await api.get(`/api/note/${noteId}`, {
         headers: {
           Authorization: `Bearer ${await getToken()}`
         }
@@ -95,7 +97,7 @@ const EditorPage = () => {
       setSaving(true);
       if (editor) {
         const content = editor.getHTML();
-        const response = await axios.put(`http://localhost:3000/api/note/${noteId}`, {
+        const response = await api.put(`/api/note/${noteId}`, {
           title: noteTitle,
           content: content,
         }, {
@@ -119,10 +121,9 @@ const EditorPage = () => {
       console.log(err);
     }
   };
-
   return (
-    <div className="relative flex flex-col gap-2 ml-[14px] w-full h-screen">
-      <div className="rounded-xl mt-4">
+    <div className="relative flex flex-col items-center gap-2 w-full h-screen">
+      <div className="rounded-xl mt-4 w-full">
         {allowedAccess && (
           <div className="flex flex-wrap items-center justify-center gap-1 p-3">
             <button
@@ -249,7 +250,7 @@ const EditorPage = () => {
         )}
       </div>
       <div
-        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
+        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-w-[60vw] min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
         onKeyDown={() => {
           handleKeyPress();
         }}
@@ -261,7 +262,7 @@ const EditorPage = () => {
             </div>
           </div>
         ) : (
-            <div className="transition-opacity duration-500 opacity-100 max-w-full text-wrap break-words overflow-y-auto">
+          <div className="transition-opacity duration-500 opacity-100 max-w-full text-wrap break-words overflow-y-auto">
             <input
               type="text"
               className="text-neutral-200 h-15 w-full mb-5 text-4xl font-extralight border-b-2 border-neutral-800 focus:outline-none bg-inherit overflow-ellipsis"
@@ -279,36 +280,36 @@ const EditorPage = () => {
               className=" p-1 backdrop-blur-xl border bg-neutral-800/20 border-neutral-700/50 rounded-xl"
             >
               <div className="flex flex-wrap items-center justify-center gap-2">
-              <button
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              disabled={!editor.can().chain().focus().toggleBold().run()}
-              className={`px-3 py-2 rounded-md ${editor.isActive("bold")
-              ? "opacity-100"
-              : "opacity-50"
-              }`}
-              >
-              <Bold className="h-5 w-4 text-white" />
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-                disabled={!editor.can().chain().focus().toggleItalic().run()}
-                className={`px-3 py-2 rounded-md ${editor.isActive("italic")
-                ? " opacity-100"
-                : " opacity-50"
-                }`}
-              >
-                <Italic className="h-5 w-4 text-white" />
-              </button>
-              <button
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-                disabled={!editor.can().chain().focus().toggleStrike().run()}
-                className={`px-3 py-2 rounded-md ${editor.isActive("strike")
-                ? "opacity-100"
-                : "opacity-50"
-                }`}
-              >
-                <Strikethrough className="h-5 w-4 text-white" />
-              </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                  disabled={!editor.can().chain().focus().toggleBold().run()}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("bold")
+                    ? "opacity-100"
+                    : "opacity-50"
+                    }`}
+                >
+                  <Bold className="h-5 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                  disabled={!editor.can().chain().focus().toggleItalic().run()}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("italic")
+                    ? " opacity-100"
+                    : " opacity-50"
+                    }`}
+                >
+                  <Italic className="h-5 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                  disabled={!editor.can().chain().focus().toggleStrike().run()}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("strike")
+                    ? "opacity-100"
+                    : "opacity-50"
+                    }`}
+                >
+                  <Strikethrough className="h-5 w-4 text-white" />
+                </button>
                 <button
                   onClick={() => editor.chain().focus().toggleOrderedList().run()}
                   className={`px-3 py-2 rounded-md ${editor.isActive("orderedList")
