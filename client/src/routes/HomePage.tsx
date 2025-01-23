@@ -28,13 +28,10 @@ const HomePage = () => {
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
-  const [isHoveredIcon, setIsHoveredIcon] = useState<string | null>("");
+  const [isHoveredIcon, setIsHoveredIcon] = useState<string | null>(null);
   const [notes, setNotes] = useState<
     { title: string; content: string; date: string }[]
   >([]);
-  const [editorContent, setEditorContentState] = useState("");
-
-
 
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -66,12 +63,6 @@ const HomePage = () => {
 
   const { getToken } = useAuth();
 
-  useEffect(() => {
-    if (parentRef.current) {
-      setParentWidth(parentRef.current.offsetWidth); // Get parent container's width
-      console.log("Parent width:", parentRef.current.offsetWidth);
-    }
-  }, []);
 
   const fetchAllNotes = async () => {
     try {
@@ -171,6 +162,7 @@ const HomePage = () => {
         <AnimatePresence>
           <div
             className={`fixed left-${sidebarWidth} inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm`}
+            onClick={() => setSelectedNote(null)}
           >
             <motion.div
               initial={{ scale: 0.7, opacity: 0.4 }}
@@ -182,7 +174,7 @@ const HomePage = () => {
                 className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
                 onClick={() => setSelectedNote(null)}
               ></div>
-              <div className={`absolute flex-wrap break-words top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] max-w-[90vw] sm:max-w-[700px] sm:max-h-[90vh]
+              <div className={`absolute flex-wrap break-words top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] lg:max-w-[550px] sm:max-w-[60vw] max-w-[90vw] sm:max-h-[90vh]
               ${window.innerWidth > 640 ? "left-[calc(50%+119px)]" : "left-1/2 top-1/2"
                 }`}>
                 <div
@@ -236,7 +228,7 @@ const HomePage = () => {
         </AnimatePresence>
       )}
 
-      <AIBar parentWidth={parentWidth} />
+      {/* <AIBar parentWidth={parentWidth} /> */}
     </div>
   );
 };

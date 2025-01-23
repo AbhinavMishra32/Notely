@@ -129,14 +129,13 @@ const EditorPage = () => {
   };
   return (
     <div className="relative flex flex-col items-center gap-2 w-full h-screen overflow-y-hidden">
-      <div className="rounded-xl mt-4 w-full">
+      <div className="rounded-xl mt-2 w-full">
         {allowedAccess && (
           <div className="flex flex-col gap-1">
             <div className="relative flex items-center gap-2 sm:mb-0 mb-2">
-              <div className="ml-3">
-                {/* <SidebarOpenButton /> */}
+              <div className="">
                 <button
-                  className="absolute top-0 left-5 sm:hidden flex items-center justify-center p-1 rounded-full bg-neutral-800 hover:bg-neutral-700 transition-all duration-300"
+                  className="absolute top-0 left-4 sm:hidden flex items-center justify-center p-1 rounded-full bg-neutral-800 hover:bg-neutral-700 transition-all duration-300"
                   onClick={() => setSidebarOpen(!sidebarOpen)}
                 >
                   {sidebarOpen ? (
@@ -146,7 +145,7 @@ const EditorPage = () => {
                   )}
                 </button>
                 <button
-                  className="absolute top-0 left-[57px] sm:left-[90px] flex sm:ml-5 ml-0 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
+                  className="absolute top-0 left-[53px] sm:left-[90px] flex sm:ml-5 ml-0 items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 p-2 transition-all duration-300"
                   onClick={saveNote}
                   disabled={saving}
                 >
@@ -303,7 +302,7 @@ const EditorPage = () => {
         )}
       </div>
       <div
-        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 rounded-xl min-w-[60vw] min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
+        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 sm:rounded-xl rounded-t-3xl min-w-[60vw] min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
         onKeyDown={() => {
           handleKeyPress();
         }}
