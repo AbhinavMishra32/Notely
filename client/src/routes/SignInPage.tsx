@@ -17,7 +17,7 @@ const SignInPage = () => {
     return (
         <>
             <div className="flex items-center h-screen justify-center overflow-hidden bg-gradient-to-b from-indigo-700/20 to-black">
-                <div className="flex flex-col xl:flex-row justify-center items-center gap-6 w-11/12 lg:w-[90vw] lg:max-w-[60vw] lg:h-4/6 h-full overflow-hidden lg:bg-black rounded-3xl shadow-lg p-8">
+                <div className="flex flex-col xl:flex-row justify-center items-center gap-6 w-11/12 lg:w-[90vw] lg:max-w-[60vw] lg:h-4/6 overflow-hidden lg:bg-black rounded-3xl shadow-lg p-8">
 
                     <div className="flex w-full lg:w-full justify-center items-center lg:rounded-xl">
                         <div className='mt-10'>

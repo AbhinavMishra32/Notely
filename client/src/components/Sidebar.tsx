@@ -44,7 +44,7 @@ const Sidebar = ({ children }) => {
         </div>
         <div className="flex flex-col">
           <p className="text-gray-400 text-xs">Free account</p>
-          <p className="text-white text-sm">{user?.fullName}</p>
+          <p className="text-white text-sm">{user?.username}</p>
         </div>
       </div>
       <div className="">
