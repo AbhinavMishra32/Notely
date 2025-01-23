@@ -128,7 +128,7 @@ const EditorPage = () => {
     }
   };
   return (
-    <div className="relative flex flex-col items-center gap-2 w-full h-screen overflow-y-hidden">
+    <div className="relative flex flex-col items-center gap-2 w-full overflow-y-hidden">
       <div className="rounded-xl mt-2 w-full">
         {allowedAccess && (
           <div className="flex flex-col gap-1">
@@ -302,14 +302,17 @@ const EditorPage = () => {
         )}
       </div>
       <div
-        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 sm:rounded-xl rounded-t-3xl min-w-[60vw] min-h-[500px] bg-gradient-to-b from-neutral-900 to-neutral-950`}
+        className={`${size} transition-all duration-75 border px-4 pt-2 pb-4 mt-2 sm:rounded-xl rounded-t-3xl w-full sm:w-[60vw] h-[calc(100vh-6.3rem)] bg-gradient-to-b from-neutral-900 to-neutral-950 overflow-hidden`}
         onKeyDown={() => {
           handleKeyPress();
         }}
       >
         {fetchingNote ? (
           <div className="flex items-center justify-center w-full h-full rounded-xl bg-neutral-901 transition-opacity duration-1000 opacity-30">
-            <div className="">Loading...</div>
+            <div className="flex flex-col items-center justify-center">
+              <Loader2 className="h-10 w-10 animate-spin" />
+              <div className="mt-2 text-xs">Loading...</div>
+            </div>
           </div>
         ) : (
           <div className="transition-opacity duration-500 opacity-100 max-w-full text-wrap break-words overflow-y-auto">
