@@ -69,6 +69,7 @@ const HomePage = () => {
   useEffect(() => {
     if (parentRef.current) {
       setParentWidth(parentRef.current.offsetWidth); // Get parent container's width
+      console.log("Parent width:", parentRef.current.offsetWidth);
     }
   }, []);
 
@@ -116,8 +117,8 @@ const HomePage = () => {
       <div className="px-[20px] md:px-[40px] lg:px-[90px] pb-10">
         <Navbar />
         {notes.length === 0 ? (
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2xl border">
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-hidden">
+            <div className="bg-neutral-900 w-[250px] h-[250px] rounded-2xl border overflow-y-hidden">
               <div className="flex items-center justify-center h-full">
                 <div className="flex flex-col gap-5 items-center justify-center">
                   <div className="w-[120px] h-[120px] bg-neutral-800 rounded-2xl border flex items-center justify-center">
@@ -181,18 +182,21 @@ const HomePage = () => {
                 className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
                 onClick={() => setSelectedNote(null)}
               ></div>
-              <div className="absolute flex-wrap break-words top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[80vw] max-w-[90vw] sm:max-w-[700px] sm:max-h-[70vh]">
+              <div className={`absolute flex-wrap break-words top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] max-w-[90vw] sm:max-w-[700px] sm:max-h-[90vh]
+              ${window.innerWidth > 640 ? "left-[calc(50%+119px)]" : "left-1/2 top-1/2"
+                }`}>
                 <div
                   className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl"
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-                  <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out max-w-full h-auto max-h-[60vh] sm:max-h-[500px]">
-                    <p className="sm:text-xl text-md text-neutral-200 mb-2 break-words">
+                  <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out max-w-full h-auto max-h-[90vh] sm:max-h-[500px]">
+                    <p className="sm:text-xl text-md text-neutral-100 mb-2 break-words">
                       {selectedNote.title}
                     </p>
                     <div className="w-full relative overflow-y-auto break-words max-h-full]">
-                      <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[50vh]">
+                      {/* change the max-h-[60vh] to change the max height of the selectedCard thing, it will only change if changes from here */}
+                      <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[60vh]">
                         <EditorContent editor={Editor} contentEditable={false} className="w-full break-words pointer-events-none max-h-full" />
                       </div>
                     </div>

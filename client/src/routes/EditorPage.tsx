@@ -128,7 +128,7 @@ const EditorPage = () => {
     }
   };
   return (
-    <div className="relative flex flex-col items-center gap-2 w-full h-screen">
+    <div className="relative flex flex-col items-center gap-2 w-full h-screen overflow-y-hidden">
       <div className="rounded-xl mt-4 w-full">
         {allowedAccess && (
           <div className="flex flex-col gap-1">
