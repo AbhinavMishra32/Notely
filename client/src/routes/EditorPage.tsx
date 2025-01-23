@@ -171,56 +171,51 @@ const EditorPage = () => {
                 <button
                   onClick={() => editor.chain().focus().redo().run()}
                   disabled={!editor.can().chain().focus().redo().run()}
-                  className={`px-2 py-2 rounded-full transition-all duration-300 ${
-                    editor.can().chain().focus().redo().run()
-                      ? "bg-neutral-800 hover:bg-neutral-700"
-                      : "opacity-30"
-                  }`}
+                  className={`px-2 py-2 rounded-full transition-all duration-300 ${editor.can().chain().focus().redo().run()
+                    ? "bg-neutral-800 hover:bg-neutral-700"
+                    : "opacity-30"
+                    }`}
                 >
                   <Redo className="h-4 w-4" />
                 </button>
 
               </div>
-              </div>
-                        <div className="flex flex-wrap items-center justify-center gap-1">
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-1">
               {/* <div className="flex flex-wrap justify-center items-center bg-neutral-900 w-full"> */}
               <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={!editor.can().chain().focus().toggleBold().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("bold") ? "bg-neutral-700" : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("bold") ? "bg-neutral-700" : "bg-neutral-800"
+                  }`}
               >
                 <Bold className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 disabled={!editor.can().chain().focus().toggleItalic().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("italic")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("italic")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <Italic className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 disabled={!editor.can().chain().focus().toggleStrike().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("strike")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("strike")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <Strikethrough className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleCode().run()}
                 disabled={!editor.can().chain().focus().toggleCode().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("code") ? "bg-neutral-700" : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("code") ? "bg-neutral-700" : "bg-neutral-800"
+                  }`}
               >
                 <Code className="h-4 w-4" />
               </button>
@@ -234,63 +229,59 @@ const EditorPage = () => {
               >
                 P
               </button> */}
-                <select
+              <select
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value === "paragraph") {
-                  editor.chain().focus().setParagraph().run();
+                    editor.chain().focus().setParagraph().run();
                   } else {
-                  editor.chain().focus().toggleHeading({ level: parseInt(value) }).run();
+                    editor.chain().focus().toggleHeading({ level: parseInt(value) }).run();
                   }
                 }}
                 className="px-2 py-1 rounded bg-neutral-800 text-white"
                 value={editor.isActive('heading') ? editor.getAttributes('heading').level : editor.isActive('paragraph') ? 'paragraph' : ''}
-                >
+              >
                 <option value="" disabled>{editor.isActive('heading') ? editor.getAttributes('heading').level : 'P'}</option>
                 <option value="paragraph">P</option>
                 {Array.from({ length: 6 }, (_, i) => (
                   <option key={i} value={i + 1}>
-                  {i + 1}
+                    {i + 1}
                   </option>
                 ))}
-                </select>
+              </select>
               <button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("bulletList")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("bulletList")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <Dot className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("orderedList")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("orderedList")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <List className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("codeBlock")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("codeBlock")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <Code2 className="h-4 w-4" />
               </button>
               <button
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={`px-2 py-2 rounded ${
-                  editor.isActive("blockquote")
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
+                className={`px-2 py-2 rounded ${editor.isActive("blockquote")
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+                  }`}
               >
                 <Quote className="h-4 w-4" />
               </button>
@@ -343,27 +334,24 @@ const EditorPage = () => {
                 <button
                   onClick={() => editor.chain().focus().toggleBold().run()}
                   disabled={!editor.can().chain().focus().toggleBold().run()}
-                  className={`px-3 py-2 rounded-md ${
-                    editor.isActive("bold") ? "opacity-100" : "opacity-50"
-                  }`}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("bold") ? "opacity-100" : "opacity-50"
+                    }`}
                 >
                   <Bold className="h-5 w-4 text-white" />
                 </button>
                 <button
                   onClick={() => editor.chain().focus().toggleItalic().run()}
                   disabled={!editor.can().chain().focus().toggleItalic().run()}
-                  className={`px-3 py-2 rounded-md ${
-                    editor.isActive("italic") ? " opacity-100" : " opacity-50"
-                  }`}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("italic") ? " opacity-100" : " opacity-50"
+                    }`}
                 >
                   <Italic className="h-5 w-4 text-white" />
                 </button>
                 <button
                   onClick={() => editor.chain().focus().toggleStrike().run()}
                   disabled={!editor.can().chain().focus().toggleStrike().run()}
-                  className={`px-3 py-2 rounded-md ${
-                    editor.isActive("strike") ? "opacity-100" : "opacity-50"
-                  }`}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("strike") ? "opacity-100" : "opacity-50"
+                    }`}
                 >
                   <Strikethrough className="h-5 w-4 text-white" />
                 </button>
@@ -371,11 +359,10 @@ const EditorPage = () => {
                   onClick={() =>
                     editor.chain().focus().toggleOrderedList().run()
                   }
-                  className={`px-3 py-2 rounded-md ${
-                    editor.isActive("orderedList")
-                      ? "opacity-100"
-                      : "opacity-50"
-                  }`}
+                  className={`px-3 py-2 rounded-md ${editor.isActive("orderedList")
+                    ? "opacity-100"
+                    : "opacity-50"
+                    }`}
                 >
                   <List className="h-5 w-4 text-white" />
                 </button>

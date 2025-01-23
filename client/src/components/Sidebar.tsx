@@ -82,7 +82,7 @@ export const SidebarItem: React.FC<{
 }> = ({ icon, text, link, isNote, id, notes, fetchAllNotes }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const {sidebarOpen, setSidebarOpen} = useSidebar();
+  const { sidebarOpen, setSidebarOpen } = useSidebar();
   const navigate = useNavigate();
 
   const deleteNote = async (noteId: string) => {
@@ -92,8 +92,8 @@ export const SidebarItem: React.FC<{
       );
       console.log("response from deleteNote: ", response);
       setIsActive(false);
-      setIsHovered(false);
-      // notes = notes.filter((note) => note.id !== noteId);
+      setIsHovered(!isHovered);
+      setSidebarOpen(!sidebarOpen);
       fetchAllNotes();
       navigate("/app/home");
     } catch (error) {
