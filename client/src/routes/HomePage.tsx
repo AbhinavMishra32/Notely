@@ -181,18 +181,18 @@ const HomePage = () => {
                 className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
                 onClick={() => setSelectedNote(null)}
               ></div>
-              <div className="absolute flex-wrap break-words top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[80vw] max-w-[90vw] sm:max-h-[70vh] max-h-[80vh]">
+              <div className="absolute flex-wrap break-words top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[80vw] max-w-[90vw] sm:max-w-[700px] sm:max-h-[70vh]">
                 <div
                   className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl"
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
                   <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out max-w-full h-auto max-h-[60vh] sm:max-h-[500px]">
-                    <p className="text-md text-neutral-200 mb-2 break-words">
+                    <p className="sm:text-xl text-md text-neutral-200 mb-2 break-words">
                       {selectedNote.title}
                     </p>
                     <div className="w-full relative overflow-y-auto break-words max-h-full]">
-                      <div className="text-[14px] text-neutral-300 mb-3 max-h-[50vh]">
+                      <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[50vh]">
                         <EditorContent editor={Editor} contentEditable={false} className="w-full break-words pointer-events-none max-h-full" />
                       </div>
                     </div>
