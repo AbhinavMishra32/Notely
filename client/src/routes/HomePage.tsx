@@ -201,87 +201,110 @@ const HomePage = () => {
       {
         selectedNote && (
           <AnimatePresence>
-            <div
-              className={`fixed z-10 left-${sidebarWidth} inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm`}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className={`fixed z-10 left-${sidebarWidth} inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm`}
             >
                 <motion.div
                   initial={{
-                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2,
-                    y: gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2,
-                    width: gridBoxProperties.width,
-                    height: gridBoxProperties.height,
-                    opacity: 0,
+                  x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2,
+                  y: gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2,
+                  width: gridBoxProperties.width,
+                  height: gridBoxProperties.height,
+                  opacity: 1,
                   }}
                   animate={{
-                    x: 0,
-                    y: 0,
-                    width: "100%",
-                    height: "100%",
-                    opacity: 1,
+                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2,
+                    y: (() => {
+                      if (window.innerWidth > 640) {
+                        return gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2;
+                      } else {
+                        return window.innerHeight / 2 - gridBoxProperties.height / 2 - 100  ;
+                      }
+                    })(),
+                  width: (() => {
+                    if (window.innerWidth > 1024) {
+                      return gridBoxProperties.width + 70;
+                    }
+                    else if (window.innerWidth > 768) {
+                      return gridBoxProperties.width + 20;
+                    } else if (window.innerWidth > 640) {
+                      return gridBoxProperties.height + 10;
+                    } else {
+                      return window.innerWidth - 40;
+                    }
+                  })(),
+                  // height: gridBoxProperties.height + 20,
+                  height: (() => {
+                    if (window.innerWidth > 640) {
+                      return gridBoxProperties.height + 20;
+                    } else {
+                      return window.innerHeight - 60;
+                    }
+                  })(),
+                  opacity: 1,
                   }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{
-                    duration: 0.8,
-                    type: "spring",
-                    bounce: 0.16,
-                    opacity: { duration: 0.6 }, // 60% of 0.6s is 0.36s
+                  duration: 1.3,
+                  type: "spring",
+                  bounce: 0.16,
+                  opacity: { duration: 0.3 },
                   }}
-                  className={`relative w-full h-full z-20 overflow-hidden
-                    
-                    `}
+                  className="relative w-full h-full z-20 overflow-hidden flex items-center justify-center"
                 >
                   <div onClick={() => setSelectedNote(null)}></div>
-                <div className={`absolute flex-wrap break-words top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] lg:max-w-[550px] sm:max-w-[60vw] max-w-[90vw] sm:max-h-[90vh]
-              ${window.innerWidth > 640 ? "left-[calc(50%+119px)]" : "left-1/2 top-1/2"
-                  }`}>
+                  <div className="absolute flex-wrap break-words top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-full h-full left-1/2">
                   <div
                     className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >
                     <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out max-w-full h-auto max-h-[90vh] sm:max-h-[500px]">
-                      <p className="sm:text-xl text-md text-neutral-100 mb-2 break-words">
-                        {selectedNote.title}
-                      </p>
-                      <div className="w-full relative overflow-y-auto break-words max-h-full]">
-                        {/* change the max-h-[60vh] to change the max height of the selectedCard thing, it will only change if changes from here */}
-                        <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[60vh]">
-                          <EditorContent editor={Editor} contentEditable={false} className="w-full break-words pointer-events-none max-h-full" />
-                        </div>
+                    <p className="sm:text-xl text-md text-neutral-100 mb-2 break-words">
+                      {selectedNote.title}
+                    </p>
+                    <div className="w-full relative overflow-y-auto break-words max-h-full">
+                      <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[60vh]">
+                      <EditorContent editor={Editor} contentEditable={false} className="w-full break-words pointer-events-none max-h-full" />
                       </div>
-                      <p className="text-xs text-neutral-500 mt-auto self-end">
-                        {selectedNote.date}
-                      </p>
+                    </div>
+                    <p className="text-xs text-neutral-500 mt-auto self-end">
+                      {selectedNote.date}
+                    </p>
                     </div>
                   </div>
                   <div className="absolute top-0 right-0 p-2">
                     <div className="flex gap-2 items-center justify-center m-2">
-                      <Link
-                        to={`/app/note/${selectedNote.id}`}
-                        onMouseEnter={() => setIsHoveredIcon("edit")}
-                        onMouseLeave={() => setIsHoveredIcon(null)}
-                      >
-                        <Edit
-                          size={19}
-                          color={`${isHoveredIcon === "edit" ? "white" : "gray"}`}
-                        />
-                      </Link>
-                      <button
-                        className=""
-                        onClick={() => setSelectedNote(null)}
-                        onMouseEnter={() => setIsHoveredIcon("close")}
-                        onMouseLeave={() => setIsHoveredIcon(null)}
-                      >
-                        <X
-                          size={22}
-                          color={`${isHoveredIcon === "close" ? "white" : "gray"}`}
-                        />
-                      </button>
+                    <Link
+                      to={`/app/note/${selectedNote.id}`}
+                      onMouseEnter={() => setIsHoveredIcon("edit")}
+                      onMouseLeave={() => setIsHoveredIcon(null)}
+                    >
+                      <Edit
+                      size={19}
+                      color={`${isHoveredIcon === "edit" ? "white" : "gray"}`}
+                      />
+                    </Link>
+                    <button
+                      className=""
+                      onClick={() => setSelectedNote(null)}
+                      onMouseEnter={() => setIsHoveredIcon("close")}
+                      onMouseLeave={() => setIsHoveredIcon(null)}
+                    >
+                      <X
+                      size={22}
+                      color={`${isHoveredIcon === "close" ? "white" : "gray"}`}
+                      />
+                    </button>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            </div>
+                  </div>
+                </motion.div>
+            </motion.div>
           </AnimatePresence>
         )
       }
