@@ -207,6 +207,7 @@ const HomePage = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className={`fixed z-10 left-${sidebarWidth} inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm`}
+              onClick={() => setSelectedNote(null)}
             >
                 <motion.div
                   initial={{
@@ -222,7 +223,7 @@ const HomePage = () => {
                       if (window.innerWidth > 640) {
                         return gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2;
                       } else {
-                        return window.innerHeight / 2 - gridBoxProperties.height / 2 - 100  ;
+                        return window.innerHeight / 2 - gridBoxProperties.height / 2 - 200  ;
                       }
                     })(),
                   width: (() => {
@@ -232,7 +233,7 @@ const HomePage = () => {
                     else if (window.innerWidth > 768) {
                       return gridBoxProperties.width + 20;
                     } else if (window.innerWidth > 640) {
-                      return gridBoxProperties.height + 10;
+                      return gridBoxProperties.width + 20;
                     } else {
                       return window.innerWidth - 40;
                     }
