@@ -223,7 +223,7 @@ const HomePage = () => {
                       if (window.innerWidth > 640) {
                         return gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2;
                       } else {
-                        return window.innerHeight / 2 - gridBoxProperties.height / 2 - 200  ;
+                        return window.innerHeight / 2 - gridBoxProperties.height / 2 - window.innerHeight /8  ;
                       }
                     })(),
                   width: (() => {
