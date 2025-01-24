@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 interface NoteCardProps {
   data: {
@@ -6,12 +6,29 @@ interface NoteCardProps {
     content: string;
     date: string;
   };
+  setGridBoxProperties: React.Dispatch<React.SetStateAction<{ width: number; height: number, x: number, y: number }>>;
 }
 
-const NoteCard: React.FC<NoteCardProps> = ({ data }) => {
+const NoteCard: React.FC<NoteCardProps> = ({ data, setGridBoxProperties }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const parentRef = useRef<HTMLDivElement>(null);
+  // const [size, setSize] = useState<{width: number, height: number}>({ width: 0, height: 0 });
+
+  const handleParentSize = () => {
+    if (parentRef.current) {
+      const rect = parentRef.current.getBoundingClientRect();
+      // console.log(rect.width, rect.height);
+      setGridBoxProperties({width: rect.width, height: rect.height, x: rect.x, y: rect.y});
+      // setParentWidth(parentRef.current.offsetWidth);
+      // setParentHeight(parentRef.current.offsetHeight);
+    }
+    // console.log(rect., parentHeight);
+  }
+
   return (
     <div
+    ref={parentRef}
+    onClick={() => handleParentSize()}
       className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl hover:ring-2 hover:ring-neutral-700"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

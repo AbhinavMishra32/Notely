@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import NoteCard from "../components/NoteCard";
 import Masonry from "react-masonry-css";
 import AIBar from "../components/AIBar";
@@ -24,15 +24,27 @@ const breakpointColumnsObj = {
 };
 
 const HomePage = () => {
-  const parentRef = useRef(null);
-  const [parentWidth, setParentWidth] = useState(0);
+  // const parentRef = useRef<HTMLDivElement>(null);
+  // const [parentWidth, setParentWidth] = useState(0);
+  // const [parentHeight, setParentHeight] = useState(0);
+  const [gridBoxProperties, setGridBoxProperties] = useState<{width: number, height: number, x: number, y: number}>({ width: 0, height: 0, x: 0, y: 0 });
   const [selectedNote, setSelectedNote] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isHoveredIcon, setIsHoveredIcon] = useState<string | null>(null);
   const [notes, setNotes] = useState<
     { title: string; content: string; date: string }[]
   >([]);
+
+  // const handleParentSize = () => {
+  //   if (parentRef.current) {
+  //     const rect = parentRef.current.getBoundingClientRect();
+  //     console.log(rect.width, rect.height);
+  //     // setParentWidth(parentRef.current.offsetWidth);
+  //     // setParentHeight(parentRef.current.offsetHeight);
+  //   }
+  //   console.log(parentWidth, parentHeight);
+  // }
 
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -82,6 +94,10 @@ const HomePage = () => {
   useEffect(() => {
     fetchAllNotes();
   }, []);
+
+  useEffect(() => {
+    console.log(gridBoxProperties);
+  }, [gridBoxProperties]);
 
   //
 
@@ -157,6 +173,7 @@ const HomePage = () => {
             >
               {notes.map((note, index) => (
                 <div
+                // ref={parentRef}
                   key={note.id}
                   className="cursor-pointer mb-6"
                   onClick={() => {
@@ -164,14 +181,17 @@ const HomePage = () => {
                     updateEditorContent(note.content);
                   }}
                 >
+                  {/* <div onClick={handleParentSize}> */}
                   <NoteCard
+                  setGridBoxProperties={setGridBoxProperties}
                     data={{
                       title: note.title,
                       content: note.content,
                       date: new Date(note.createdAt).toDateString(),
                     }}
                   />
-                </div>
+                  </div>
+                // </div>
               ))}
             </Masonry>)
         )}
@@ -182,19 +202,35 @@ const HomePage = () => {
         selectedNote && (
           <AnimatePresence>
             <div
-              className={`fixed left-${sidebarWidth} inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm`}
-              onClick={() => setSelectedNote(null)}
+              className={`fixed z-10 left-${sidebarWidth} inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm`}
             >
-              <motion.div
-                initial={{ scale: 0.7, opacity: 0.4 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-              >
-                <div
-                  className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"
-                  onClick={() => setSelectedNote(null)}
-                ></div>
+                <motion.div
+                  initial={{
+                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2,
+                    y: gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2,
+                    width: gridBoxProperties.width,
+                    height: gridBoxProperties.height,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    x: 0,
+                    y: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 1,
+                  }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    type: "spring",
+                    bounce: 0.16,
+                    opacity: { duration: 0.6 }, // 60% of 0.6s is 0.36s
+                  }}
+                  className={`relative w-full h-full z-20 overflow-hidden
+                    
+                    `}
+                >
+                  <div onClick={() => setSelectedNote(null)}></div>
                 <div className={`absolute flex-wrap break-words top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-[90vw] lg:max-w-[550px] sm:max-w-[60vw] max-w-[90vw] sm:max-h-[90vh]
               ${window.innerWidth > 640 ? "left-[calc(50%+119px)]" : "left-1/2 top-1/2"
                   }`}>
