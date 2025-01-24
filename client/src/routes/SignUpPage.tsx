@@ -16,24 +16,22 @@ const SignUpPage = () => {
     })
     return (
         <>
-            <div className='flex items-center h-screen justify-center overflow-y-hidden bg-black'>
-                <div className='flex flex-row gap-3 w-4/6 h-4/5 overflow-y-hidden bg-black
-                rounded-3xl
-                p-3
-                '>
-                    <div className='relative flex w-1/2 bg-black rounded-xl overflow-hidden'>
-                        <div className='absolute rounded-xl shadow-[0_0_90px_10px_rgba(82,0,189,1)]'>
-
+            <div className="flex items-center h-screen justify-center overflow-hidden bg-gradient-to-b from-indigo-700/20 to-black">
+                <div className="flex flex-col xl:flex-row justify-center items-center gap-6 w-11/12 lg:max-w-[60vw] lg:max-h-[80vh] h-full overflow-hidden lg:bg-black rounded-3xl shadow-lg p-8">
+                    <div className="flex w-full lg:w-full lg:my-5 justify-center items-center lg:rounded-xl">
+                        <div className=''>
+                            <SignedOut>
+                                <SignUp path='/sign-up' afterSignOutUrl={'/app/home'} signInUrl='/sign-in' />
+                            </SignedOut>
                         </div>
-                        <Spline scene="https://prod.spline.design/sqFJBN7iWvh7fJtc/scene.splinecode" />
                     </div>
-                    <div className='flex w-1/2 bg-black rounded-xl items-center justify-center'>
-                        <SignedOut>
-                            <SignUp path='/sign-up' afterSignOutUrl={'/app/home'} signInUrl='/sign-in' />
-                        </SignedOut>
+
+                    <div className="relative  flex justify-center items-center w-full lg:w-full h-[300px] lg:h-full lg:max-h-[60vh] lg:rounded-xl overflow-hidden">
+                        <Spline scene="https://prod.spline.design/sqFJBN7iWvh7fJtc/scene.splinecode" />
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
