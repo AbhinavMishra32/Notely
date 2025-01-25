@@ -91,7 +91,7 @@ const HomePageLayout = () => {
       <div className="flex overflow-x-hidden">
         {
           window.innerWidth <= 640 ? (
-            <div className={`fixed z-20 left-0 top-0 h-full w-60 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out`}>
+            <div className={`fixed z-20 left-0 top-0 h-full w-60 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out`}>
               <Sidebar>
                 <SidebarItem
                   icon={<Search color="grey" size={17} />}
@@ -190,7 +190,7 @@ const HomePageLayout = () => {
             onClick={() => setSidebarOpen(!sidebarOpen)}
           ></div>
         </div>
-        <div className={`relative flex-1 transition-transform duration-300 ease-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
+        <div className={`relative flex-1 transition-transform duration-300 ease-in-out ${sidebarOpen && window.innerWidth <= 640 ? "translate-x-60" : ""} overflow-x-hidden`}>
           <Outlet />
         </div>
       </div>

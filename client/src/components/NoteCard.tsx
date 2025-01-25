@@ -29,7 +29,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ data, setGridBoxProperties }) => {
     <div
     ref={parentRef}
     onClick={() => handleParentSize()}
-      className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl hover:ring-2 hover:ring-neutral-700"
+      className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl hover:ring-1 hover:ring-neutral-700"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

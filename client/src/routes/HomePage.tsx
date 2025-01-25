@@ -181,7 +181,6 @@ const HomePage = () => {
                     updateEditorContent(note.content);
                   }}
                 >
-                  {/* <div onClick={handleParentSize}> */}
                   <NoteCard
                   setGridBoxProperties={setGridBoxProperties}
                     data={{
@@ -205,7 +204,7 @@ const HomePage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: window.innerWidth > 640 ? 0 : 0.006 }}
               className={`fixed z-10 left-${sidebarWidth} inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm`}
               onClick={() => setSelectedNote(null)}
             >
@@ -215,10 +214,9 @@ const HomePage = () => {
                   y: gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2,
                   width: gridBoxProperties.width,
                   height: gridBoxProperties.height,
-                  opacity: 1,
                   }}
                   animate={{
-                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2,
+                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2 + (window.innerWidth > 640 ? 0 : 4),
                     y: (() => {
                       if (window.innerWidth > 640) {
                         return gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2;
@@ -235,10 +233,9 @@ const HomePage = () => {
                     } else if (window.innerWidth > 640) {
                       return gridBoxProperties.width + 20;
                     } else {
-                      return window.innerWidth - 40;
+                      return window.innerWidth - 30;
                     }
                   })(),
-                  // height: gridBoxProperties.height + 20,
                   height: (() => {
                     if (window.innerWidth > 640) {
                       return gridBoxProperties.height + 20;
@@ -246,14 +243,12 @@ const HomePage = () => {
                       return window.innerHeight - 60;
                     }
                   })(),
-                  opacity: 1,
                   }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{
-                  duration: 1.3,
+                  duration: window.innerWidth > 640 ? 1.2 : 1,
                   type: "spring",
-                  bounce: 0.16,
-                  opacity: { duration: 0.3 },
+                  bounce: 0.36,
                   }}
                   className="relative w-full h-full z-20 overflow-hidden flex items-center justify-center"
                 >
@@ -265,9 +260,14 @@ const HomePage = () => {
                     onMouseLeave={() => setIsHovered(false)}
                   >
                     <div className="flex flex-col bg-neutral-900 p-5 rounded-xl transition-colors duration:200 ease-in-out max-w-full h-auto max-h-[90vh] sm:max-h-[500px]">
-                    <p className="sm:text-xl text-md text-neutral-100 mb-2 break-words">
+                    <motion.p
+                      className="sm:text-xl text-neutral-100 mb-2 break-words"
+                      initial={{ fontSize: "16px" }}
+                      animate={{ fontSize: "20px"}} 
+                      transition={{ duration: 0.4 }}
+                    >
                       {selectedNote.title}
-                    </p>
+                    </motion.p>
                     <div className="w-full relative overflow-y-auto break-words max-h-full">
                       <div className="sm:text-md text-sm text-neutral-300 mb-3 max-h-[60vh]">
                       <EditorContent editor={Editor} contentEditable={false} className="w-full break-words pointer-events-none max-h-full" />
@@ -278,8 +278,13 @@ const HomePage = () => {
                     </p>
                     </div>
                   </div>
-                  <div className="absolute top-0 right-0 p-2">
-                    <div className="flex gap-2 items-center justify-center m-2">
+                  <motion.div className="absolute top-0 right-0 p-2"
+                  initial = {{ opacity: 0, size: 0 }}
+                  animate = {{ opacity: 1, size: 1 }}
+                  transition = {{ duration: window.innerWidth > 640 ? 1.1 : 0.5 }}
+                  >
+                    <div className="flex gap-2 items-center justify-center m-2"
+                    >
                     <Link
                       to={`/app/note/${selectedNote.id}`}
                       onMouseEnter={() => setIsHoveredIcon("edit")}
@@ -302,7 +307,7 @@ const HomePage = () => {
                       />
                     </button>
                     </div>
-                  </div>
+                  </motion.div>
                   </div>
                 </motion.div>
             </motion.div>
