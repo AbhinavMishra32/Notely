@@ -17,12 +17,8 @@ const NoteCard: React.FC<NoteCardProps> = ({ data, setGridBoxProperties }) => {
   const handleParentSize = () => {
     if (parentRef.current) {
       const rect = parentRef.current.getBoundingClientRect();
-      // console.log(rect.width, rect.height);
       setGridBoxProperties({width: rect.width, height: rect.height, x: rect.x, y: rect.y});
-      // setParentWidth(parentRef.current.offsetWidth);
-      // setParentHeight(parentRef.current.offsetHeight);
     }
-    // console.log(rect., parentHeight);
   }
 
   return (
