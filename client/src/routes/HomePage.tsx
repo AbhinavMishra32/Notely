@@ -216,7 +216,7 @@ const HomePage = () => {
                   height: gridBoxProperties.height,
                   }}
                   animate={{
-                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2 + (window.innerWidth > 640 ? 0 : 4),
+                    x: gridBoxProperties.x - window.innerWidth / 2 + gridBoxProperties.width / 2 + (window.innerWidth > 640 ? 0 : 6),
                     y: (() => {
                       if (window.innerWidth > 640) {
                         return gridBoxProperties.y - window.innerHeight / 2 + gridBoxProperties.height / 2;
