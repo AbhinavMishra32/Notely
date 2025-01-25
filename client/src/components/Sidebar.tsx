@@ -3,6 +3,7 @@ import { dark } from "@clerk/themes";
 import {
   ChevronRightIcon,
   Cross,
+  CrossIcon,
   Delete,
   Fullscreen,
   Link,
@@ -18,6 +19,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../components/ui/drawer";
+
 import {
   DropdownMenuContent,
   DropdownMenuLabel,
@@ -153,7 +165,7 @@ export const SidebarItem: React.FC<{
           </div>
         </div>
       </NavLink>
-      {isNote && (
+      {isNote && ( window.innerWidth > 640 ? (
         <DropdownMenu>
           <DropdownMenuTrigger
             className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${window.innerWidth < 640 ? "opacity-100" : isHovered ? "opacity-100" : "opacity-0"
@@ -227,7 +239,57 @@ export const SidebarItem: React.FC<{
               </div>
             </button>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu>) : (
+          <Drawer>
+            <DrawerTrigger>
+              <div className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${window.innerWidth < 640 ? "opacity-100" : isHovered ? "opacity-100" : "opacity-0"
+                }`}>
+                <div className="relative">
+                  <div className={`absolute -right-1 bottom-1/2 translate-y-1/2 ${window.innerWidth <= 640 ? "" : "hover:bg-neutral-700 bg-neutral-800 hover:border-neutral-600"} p-[2px] rounded-md border border-transparent shadow-2xl`}>
+                    <MoreHorizontal size={16} color="gray" />
+                  </div>
+                </div>
+              </div>
+            </DrawerTrigger>
+            <DrawerContent className="rounded-t-3xl">
+              <DrawerHeader>
+                <DrawerTitle>
+                  {text}
+                  </DrawerTitle>
+                  <DrawerDescription>
+                    Choose an action
+                  </DrawerDescription>
+                  <div className="mt-3 flex flex-col gap-3 w-full h-[20vh]">
+                    <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
+                      <DrawerClose className="w-full h-full">
+                      <button
+                        className="w-full h-full flex items-center justify-center gap-2 hover:bg-neutral-800/50 rounded-md"
+                        onClick={() => deleteNote(id)}
+                      >
+                        <X size={24} />
+                        <div className="text-[15px] font-inter">
+                          Delete Note
+                        </div>
+                      </button>
+                      </DrawerClose>
+                    </div>
+                    <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
+                      <DrawerClose className="w-full h-full">
+                        <button className="w-full h-full flex items-center justify-center gap-2 rounded-md"
+                        onClick={() => navigator.clipboard.writeText("https://dbnotes.abhinavmishra.in" + link)}
+                        >
+                        <Link size={20} />
+                        <div className="text-[15px] font-inter">
+                          Copy Link
+                        </div>
+                        </button>
+                      </DrawerClose>
+                    </div>
+                  </div>
+              </DrawerHeader>
+            </DrawerContent>
+          </Drawer>
+        )
       )}
     </div>
   );
