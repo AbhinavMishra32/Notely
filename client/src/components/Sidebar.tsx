@@ -1,5 +1,6 @@
 import { UserButton, useUser } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
+import {AnimatePresence, motion} from 'framer-motion';
 import {
   ChevronRightIcon,
   Cross,
@@ -177,69 +178,78 @@ export const SidebarItem: React.FC<{
               </div>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="relative left-20 z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60"
-            style={{ boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.6)" }}
-          >
-            <button
-              className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out"
-              onClick={() => deleteNote(id)}
+
+            <DropdownMenuContent
+              className="relative left-24 -top-5 z-50 w-56 backdrop-blur-md bg-neutral-700/30 rounded-xl border border-neutral-700/60"
+              style={{ boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.6)" }}
+              asChild
             >
-              <div className="flex items-center">
-                <div
-                  className="flex items-center justify-center mr-1 overflow-hidden"
-                  style={{ width: "24px", height: "24px" }}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.4, x: -10, y: -10 }}
+                animate={{ opacity: 1, scale: 1, x: 0, y: 0, originX: 0, originY: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.1, type: "spring", stiffness: 160, damping: 15 }}
+              >
+                <button
+                  className="flex w-full justify-between gap-1 hover:bg-neutral-800/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out"
+                  onClick={() => deleteNote(id)}
                 >
-                  <div
-                    className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
-                  >
-                    <X size={18} color="gray" />
+                  <div className="flex items-center">
+                    <div
+                      className="flex items-center justify-center mr-1 overflow-hidden"
+                      style={{ width: "24px", height: "24px" }}
+                    >
+                      <div
+                        className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
+                      >
+                        <X size={18} color="gray" />
+                      </div>
+                    </div>
+                    <div className="font-inter text-neutral-400 text-[15px] antialiased">
+                      Delete
+                    </div>
                   </div>
-                </div>
-                <div className="font-inter text-neutral-400 text-[15px] antialiased">
-                  Delete
-                </div>
-              </div>
-            </button>
-            <button className="flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out">
-              <div className="flex items-center">
-                <div
-                  className="flex items-center justify-center mr-1 overflow-hidden"
-                  style={{ width: "24px", height: "24px" }}
-                >
-                  <div
-                    className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
-                  >
-                    <Link size={16} color="gray" />
+                </button>
+                <button className="flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out">
+                  <div className="flex items-center">
+                    <div
+                      className="flex items-center justify-center mr-1 overflow-hidden"
+                      style={{ width: "24px", height: "24px" }}
+                    >
+                      <div
+                        className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
+                      >
+                        <Link size={16} color="gray" />
+                      </div>
+                    </div>
+                    <div className="font-inter text-neutral-400 text-[15px] antialiased">
+                      Copy link
+                    </div>
                   </div>
+                </button>
+                <div className="px-1">
+                  <DropdownMenuSeparator className="bg-neutral-700/40" />
                 </div>
-                <div className="font-inter text-neutral-400 text-[15px] antialiased">
-                  Copy link
-                </div>
-              </div>
-            </button>
-            <div className="px-1">
-              <DropdownMenuSeparator className="bg-neutral-700/40" />
-            </div>
-            <button className="flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out">
-              <div className="flex items-center">
-                <div
-                  className="flex items-center justify-center mr-1 overflow-hidden"
-                  style={{ width: "24px", height: "24px" }}
-                >
-                  <div
-                    className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
-                  >
-                    <View size={16} color="gray" />
+                <button className="flex w-full justify-between gap-1 hover:bg-neutral-700/50 hover:ring-[1px] hover:ring-neutral-700/80 rounded-xl py-1 px-2 transition-all duration-300 ease-in-out">
+                  <div className="flex items-center">
+                    <div
+                      className="flex items-center justify-center mr-1 overflow-hidden"
+                      style={{ width: "24px", height: "24px" }}
+                    >
+                      <div
+                        className={`flex items-center jusfity-center absolute transition-opacity duration-200 mr-2`}
+                      >
+                        <View size={16} color="gray" />
+                      </div>
+                    </div>
+                    <div className="font-inter text-neutral-400 text-[15px] antialiased">
+                      View details
+                    </div>
                   </div>
-                </div>
-                <div className="font-inter text-neutral-400 text-[15px] antialiased">
-                  View details
-                </div>
-              </div>
-            </button>
-          </DropdownMenuContent>
-        </DropdownMenu>) : (
+                </button>
+              </motion.div>
+            </DropdownMenuContent>
+          </DropdownMenu>) : (
           <Drawer>
             <DrawerTrigger>
               <div className={`flex items-center justify-center pr-1 transition-opacity duration-200 ${window.innerWidth < 640 ? "opacity-100" : isHovered ? "opacity-100" : "opacity-0"
@@ -255,13 +265,13 @@ export const SidebarItem: React.FC<{
               <DrawerHeader>
                 <DrawerTitle>
                   {text}
-                  </DrawerTitle>
-                  <DrawerDescription>
-                    Choose an action
-                  </DrawerDescription>
-                  <div className="mt-3 flex flex-col gap-3 w-full h-[20vh]">
-                    <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
-                      <DrawerClose className="w-full h-full">
+                </DrawerTitle>
+                <DrawerDescription>
+                  Choose an action
+                </DrawerDescription>
+                <div className="mt-3 flex flex-col gap-3 w-full h-[20vh]">
+                  <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
+                    <DrawerClose className="w-full h-full">
                       <button
                         className="w-full h-full flex items-center justify-center gap-2 hover:bg-neutral-800/50 rounded-md"
                         onClick={() => deleteNote(id)}
@@ -271,28 +281,28 @@ export const SidebarItem: React.FC<{
                           Delete Note
                         </div>
                       </button>
-                      </DrawerClose>
-                    </div>
-                    <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
-                      <DrawerClose className="w-full h-full">
-                        <button className="w-full h-full flex items-center justify-center gap-2 rounded-md"
+                    </DrawerClose>
+                  </div>
+                  <div className="w-full h-[45px] rounded-md bg-neutral-900 border-[1px] border-neutral-800">
+                    <DrawerClose className="w-full h-full">
+                      <button className="w-full h-full flex items-center justify-center gap-2 rounded-md"
                         onClick={() => navigator.clipboard.writeText("https://dbnotes.abhinavmishra.in" + link)}
-                        >
+                      >
                         <Link size={20} />
                         <div className="text-[15px] font-inter">
                           Copy Link
                         </div>
-                        </button>
-                      </DrawerClose>
-                    </div>
+                      </button>
+                    </DrawerClose>
                   </div>
+                </div>
               </DrawerHeader>
             </DrawerContent>
           </Drawer>
         )
-      )}
-    </div>
-  );
-};
+        )}
+      </div>
+    );
+  };
 
 export default Sidebar;

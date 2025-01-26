@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-
+import {motion} from "framer-motion";
 interface NoteCardProps {
   data: {
     title: string;
@@ -22,7 +22,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ data, setGridBoxProperties }) => {
   }
 
   return (
-    <div
+    <motion.div
+    initial = {{opacity: 0}}
+    animate= {{opacity: 1}}
+    transition={{duration: 0.5}}
     ref={parentRef}
     onClick={() => handleParentSize()}
       className="p-[1px] bg-gradient-to-tl from-neutral-800 to-neutral-600 rounded-xl hover:ring-1 hover:ring-neutral-700"
@@ -46,7 +49,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ data, setGridBoxProperties }) => {
         </div>
         <p className="text-xs text-neutral-500 mt-auto self-end">{data.date}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
