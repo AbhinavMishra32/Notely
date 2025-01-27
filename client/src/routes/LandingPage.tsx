@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import LandingNavbar from '../components/LandingNavbar';
 import { FlipWords } from '../components/ui/flip-words';
 import {AnimatePresence, motion} from 'framer-motion';
+import LandingImage from '../assets/landing.png';
+import LandingImageMobile from '../assets/landing-mobile.png';
 
 const LandingPage = () => {
     const { isSignedIn } = useAuth();
@@ -52,12 +54,12 @@ const LandingPage = () => {
                     </div>
                     {windowWidth > 768 ? (
                         <div className='h-fit w-[80vw] mx-auto mt-20 overflow-hidden rounded-3xl shadow-[0px_0px_300px_-5px_rgba(123,123,123,0.33)] relative'>
-                            <img src={'../../public/landing.png'} alt='landing-page' className='w-full h-auto object-scale-down border-[2px] border-neutral-800 rounded-3xl' />
+                            <img src={LandingImage} alt='landing-page' className='w-full h-auto object-scale-down border-[2px] border-neutral-800 rounded-3xl' />
                             <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-neutral-900 rounded-3xl'></div>
                         </div>
                     ) : (
                         <div className='h-fit w-[400px] max-w-[90vw] mx-auto mt-10 overflow-hidden rounded-2xl shadow-[0px_0px_300px_-5px_rgba(123,123,123,0.33)] relative'>
-                            <img src={'../../public/landing-mobile.png'} alt='landing-page' className='w-full h-full object-scale-down border-[1px] border-neutral-700 rounded-2xl' />
+                            <img src={LandingImageMobile} alt='landing-page' className='w-full h-full object-scale-down border-[1px] border-neutral-700 rounded-2xl' />
                             <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-neutral-900 rounded-2xl'></div>
                         </div>
                     )}
