@@ -42,7 +42,7 @@ const LandingPage = () => {
                         <br />
                         <div className='bg-gradient-to-b inline-block from-white to-neutral-400 bg-clip-text'>
                             <h1 
-                             className='text-transparent mx-4 md:mb-1 md:text-7xl text-4xl text-center font-extrabold '>
+                             className='text-transparent mx-4 md:mb-1 md:text-7xl text-3xl text-center font-extrabold '>
                                 Organize Your <FlipWords words={['life.', 'ideas.', 'mind.']} duration={3000} className='' />
                             </h1>
                         </div>
