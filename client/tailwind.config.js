@@ -9,7 +9,8 @@ export default {
 		theme: {
 			extend: {
 				fontFamily: {
-					inter: ["Inter", "mono"]
+					inter: ["Inter", "mono"],
+					dm_serif_display: ["DM Serif Display", "serif"]
 				}
 			}
 		},
