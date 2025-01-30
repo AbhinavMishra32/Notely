@@ -84,6 +84,17 @@ const Navbar = () => {
             duration: 0.5, ease: "easeOut", type: "spring", stiffness: 40, damping: 10
           }}
         >
+          {creatingNote ? (
+            <div className="flex items-center justify-center gap-2 px-2 whitespace-nowrap">
+              <motion.div className="flex items-center gap-2"
+                ref={buttonRef}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <Loader className="animate-spin" /> Creating Note...
+              </motion.div>
+            </div>
           ) : (
             <Plus size={20} />
           )}
