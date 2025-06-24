@@ -15,7 +15,9 @@ const RootLayout = () => {
             routerPush={(to) => navigate(to)}
             routerReplace={(to) => { navigate(to, { replace: true }) }}
             publishableKey={PUBLISHABLE_KEY}
-            appearance={{ baseTheme: dark }}
+            appearance={{ baseTheme: dark, elements: {
+                footer: "hidden"
+            } }}
         >
             <header>
                 {/* Put header here */}
